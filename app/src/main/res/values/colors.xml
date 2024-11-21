@@ -10,5 +10,6 @@
     <color name="colorOnSecondary">#424242</color>
     <color name="colorOnBackground">#333333</color>
     <color name="colorOnSurface">#333333</color>
+    <color name="textColor">#333333</color>
 
 </resources>
