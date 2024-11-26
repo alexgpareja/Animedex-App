@@ -2,4 +2,13 @@
     <string name="app_name">M7 Animedex</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_description">home</string>
+    <string name="home_icon">Home</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+    <string name="lists">Lists</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
 </resources>

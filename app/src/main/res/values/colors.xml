@@ -11,5 +11,7 @@
     <color name="colorOnBackground">#333333</color>
     <color name="colorOnSurface">#333333</color>
     <color name="textColor">#333333</color>
+    <color name="iconDark">#000000</color>
+    <color name="error">#FF5449</color>
 
 </resources>
