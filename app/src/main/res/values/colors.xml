@@ -11,5 +11,9 @@
     <color name="colorOnBackground">#333333</color>
     <color name="colorOnSurface">#333333</color>
     <color name="textColor">#333333</color>
+    <color name="error">#FF5449</color>
+    <color name="blanc">#FFFFFF</color>
+    <color name="backgroundSearch">#EAE2F3</color>
+
 
 </resources>
