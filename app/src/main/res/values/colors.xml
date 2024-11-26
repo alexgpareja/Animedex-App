@@ -14,6 +14,6 @@
     <color name="error">#FF5449</color>
     <color name="blanc">#FFFFFF</color>
     <color name="backgroundSearch">#EAE2F3</color>
-
+    <color name="iconDark">#000000</color>
 
 </resources>
