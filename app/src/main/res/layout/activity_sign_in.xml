@@ -13,7 +13,8 @@
         android:name="com.example.m7animedex.fragment_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_header"/>
 
     <!-- Formulario -->
     <LinearLayout
@@ -132,7 +133,7 @@
             android:id="@+id/x_logo"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_twitter"
+            android:src="@drawable/ic_x"
             android:contentDescription="Twitter Login"
             android:layout_margin="8dp" />
     </LinearLayout>
@@ -144,25 +145,23 @@
         app:layout_constraintTop_toBottomOf="@id/social_media_section"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="32dp"
+        android:layout_margin="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You already have an account?"
-            android:textColor="@color/black"
+            android:text="@string/you_already_have_an_account"
+            android:textColor="@color/textColor"
             android:textSize="14sp"
             android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/log_in_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
-            android:text="Log in"
-            android:textColor="@color/white" />
+            android:text="@string/log_in"/>
     </LinearLayout>
 
     <!-- Footer -->
@@ -171,6 +170,7 @@
         android:name="com.example.m7animedex.FooterFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout="@layout/fragment_footer"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
