@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main"
     android:background="@color/backgroundColor"
     tools:context=".Preferencias">
 
     <!-- Encabezado con fragmento -->
-
     <fragment
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:id="@+id/preferencesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
         android:text="Preferences"
         android:textColor="@color/textColor"
@@ -39,7 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/rounded_section_background_search"
         android:hint="Search"
         android:paddingStart="16dp"
@@ -58,11 +58,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:orientation="vertical"
         android:divider="@android:drawable/divider_horizontal_dark"
         android:showDividers="middle"
-        android:padding="12dp"
+        android:padding="16dp"
         android:background="@drawable/rounded_section_background"
         app:layout_constraintTop_toBottomOf="@id/searchBox"
         app:layout_constraintStart_toStartOf="parent"
@@ -159,11 +159,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:orientation="vertical"
         android:divider="@android:drawable/divider_horizontal_dark"
         android:showDividers="middle"
-        android:padding="12dp"
+        android:padding="16dp"
         android:background="@drawable/rounded_section_background"
         app:layout_constraintTop_toBottomOf="@id/mainSettingsSection"
         app:layout_constraintStart_toStartOf="parent"
@@ -239,7 +239,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:backgroundTint="@color/colorOnSurface"
         android:text="Log out"
         android:textColor="@color/blanc"
@@ -255,7 +255,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/error"
         android:text="Delete account"
         android:textColor="@color/blanc"
@@ -264,4 +264,13 @@
         app:layout_constraintTop_toBottomOf="@id/logoutButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Fragmento footer -->
+    <fragment
+        android:id="@+id/footer_fragment"
+        android:name="com.example.m7animedex.FooterFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout="@layout/fragment_footer" />
 </androidx.constraintlayout.widget.ConstraintLayout>
