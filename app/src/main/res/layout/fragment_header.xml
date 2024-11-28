@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:theme="@style/AppTheme"
     tools:context=".fragment_header"
     android:padding="16dp">
     <LinearLayout
@@ -28,8 +29,7 @@
             android:layout_marginStart="8dp"
             android:text="AnimeIndex"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
+            android:textStyle="bold"/>
 
         <ImageView
             android:id="@+id/imageView"

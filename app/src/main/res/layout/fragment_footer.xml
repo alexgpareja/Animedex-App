@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@color/colorPrimary"
+    android:theme="@style/AppTheme"
     android:paddingVertical="8dp"
     android:gravity="center">
 
@@ -26,8 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@string/search"
             android:textSize="12sp"
-            android:gravity="center"
-            android:textColor="@color/textColor" />
+            android:gravity="center" />
     </LinearLayout>
 
     <!-- Home -->
@@ -48,8 +47,7 @@
             android:layout_height="wrap_content"
             android:text="@string/home"
             android:textSize="12sp"
-            android:gravity="center"
-            android:textColor="@color/textColor" />
+            android:gravity="center"/>
     </LinearLayout>
 
     <!-- Lists -->
@@ -70,8 +68,7 @@
             android:layout_height="wrap_content"
             android:text="@string/lists"
             android:textSize="12sp"
-            android:gravity="center"
-            android:textColor="@color/textColor" />
+            android:gravity="center"/>
     </LinearLayout>
 
 </LinearLayout>

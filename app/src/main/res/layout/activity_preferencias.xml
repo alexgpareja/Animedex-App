@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
-    android:background="@color/backgroundColor"
+    android:theme="@style/AppTheme"
     tools:context=".Preferencias">
 
     <!-- Encabezado con fragmento -->
@@ -27,7 +27,6 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
         android:text="Preferences"
-        android:textColor="@color/textColor"
         android:textSize="22sp"
         android:fontFamily="@font/roboto_bold"
         app:layout_constraintTop_toBottomOf="@id/header"
@@ -44,7 +43,6 @@
         android:hint="Search"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:textColor="@color/textColor"
         android:textSize="16sp"
         android:fontFamily="@font/roboto_regular"
         android:drawableStart="@drawable/rounded_search_24"
@@ -84,7 +82,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="Account Settings"
-                android:textColor="@color/textColor"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
@@ -105,7 +102,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="App Settings"
-                android:textColor="@color/textColor"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
@@ -126,7 +122,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="Notifications"
-                android:textColor="@color/textColor"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
@@ -147,7 +142,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="Privacy"
-                android:textColor="@color/textColor"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
@@ -185,7 +179,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="Help"
-                android:textColor="@color/textColor"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
@@ -206,7 +199,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="Delete Cache"
-                android:textColor="@color/textColor"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
@@ -227,7 +219,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="Invite Friends"
-                android:textColor="@color/textColor"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
@@ -240,9 +231,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/colorOnSurface"
         android:text="Log out"
-        android:textColor="@color/blanc"
         android:textSize="16sp"
         android:fontFamily="@font/roboto_medium"
         app:layout_constraintTop_toBottomOf="@id/extraSettingsSection"
@@ -256,9 +245,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/error"
         android:text="Delete account"
-        android:textColor="@color/blanc"
         android:textSize="16sp"
         android:fontFamily="@font/roboto_medium"
         app:layout_constraintTop_toBottomOf="@id/logoutButton"
