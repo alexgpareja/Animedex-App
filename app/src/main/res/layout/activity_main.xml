@@ -8,63 +8,23 @@
     tools:context=".MainActivity"
     android:background="@color/backgroundColor">
 
-    <fragment
-        android:id="@+id/header"
+    <!-- Encabezado con fragmento -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/header_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_header" />
+
+
+
+    <!-- Fragmento footer -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/footer_fragment"
+        android:name="com.example.m7animedex.FooterFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_header"
-        tools:ignore="MissingConstraints" />
-
-    <LinearLayout
-        android:id="@+id/topAiringContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        android:layout_marginHorizontal="30dp">
-
-        <TextView
-            android:id="@+id/topAiringTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TOP AIRING"
-            android:textSize="28sp"
-            android:textColor="@color/textColor"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/topAiringGrid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="15dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/mostPopularContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAiringContainer"
-        android:layout_marginHorizontal="30dp">
-
-        <TextView
-            android:id="@+id/mostPopularTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MOST POPULAR"
-            android:textSize="28sp"
-            android:textColor="@color/textColor"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mostPopularGrid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="15dp"/>
-    </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout="@layout/fragment_footer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -79,6 +79,7 @@
             android:id="@+id/sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/ButtonPrimary"
             android:text="@string/sign_in"
             android:layout_marginBottom="16dp" />
         <!--Or sign in with-->
@@ -165,6 +166,7 @@
             android:id="@+id/log_in_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/ButtonPrimary"
             android:text="@string/log_in"/>
     </LinearLayout>
 
@@ -174,6 +176,7 @@
         android:name="com.example.m7animedex.FooterFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/ButtonPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout="@layout/fragment_footer"/>
 
