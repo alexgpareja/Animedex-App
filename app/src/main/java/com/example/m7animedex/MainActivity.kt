@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.header, FragmentHeader())
             .commit()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.footer, FooterFragment2())
+            .replace(R.id.footer, FooterFragment())
             .commit()
 
         setOnApplyWindowInsetsListener(findViewById(main)) { v, insets ->
