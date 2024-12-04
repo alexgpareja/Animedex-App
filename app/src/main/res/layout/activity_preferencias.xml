@@ -9,14 +9,21 @@
     android:theme="@style/AppTheme"
     tools:context=".Preferencias">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout="@layout/fragment_header" />
+        tools:layout="@layout/fragment_header"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout="@layout/fragment_footer2"
+        tools:ignore="MissingConstraints"/>
 
     <TextView
         android:id="@+id/preferencesTitle"
@@ -266,13 +273,4 @@
         app:layout_constraintTop_toBottomOf="@id/logoutButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Fragmento footer -->
-    <fragment
-        android:id="@+id/footer_fragment"
-        android:name="com.example.m7animedex.FooterFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_footer" />
 </androidx.constraintlayout.widget.ConstraintLayout>

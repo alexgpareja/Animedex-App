@@ -30,9 +30,9 @@ class FragmentHeader : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_header, container, false)
 
-        val logoImageView: ImageView = view.findViewById(R.id.imageView)
+        val logoImageView: ImageView = view.findViewById(R.id.imageView4)
         val titleTextView: TextView = view.findViewById(R.id.tvHeaderTitle)
-        val logoAndTitleContainer: View = view.findViewById(R.id.imageView4)  // Contenedor que agrupe el logo y el nombre de la app
+        val account: View = view.findViewById(R.id.imageView)  // Contenedor que agrupe el logo y el nombre de la app
 
         // Configurar acción del logo para redirigir a MainActivity
         logoImageView.setOnClickListener {
@@ -44,21 +44,9 @@ class FragmentHeader : Fragment() {
             navigateToMainActivity()
         }
 
-        // Configurar acción del contenedor del logo y nombre para redirigir a MainActivity
-        logoAndTitleContainer.setOnClickListener {
-            navigateToMainActivity()
-        }
-
-        // Configurar acción del logo para redirigir a PreferencesActivity
-        logoImageView.setOnLongClickListener {
+        // Configurar acción del account para redirigir a Preferencias
+        account.setOnClickListener {
             navigateToPreferences()
-            true  // Se devuelve true para indicar que el evento fue consumido
-        }
-
-        // Configurar acción del texto para redirigir a PreferencesActivity
-        titleTextView.setOnLongClickListener {
-            navigateToPreferences()
-            true  // Se devuelve true para indicar que el evento fue consumido
         }
 
         return view
