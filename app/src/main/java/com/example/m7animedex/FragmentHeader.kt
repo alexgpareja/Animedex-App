@@ -32,20 +32,47 @@ class FragmentHeader : Fragment() {
 
         val logoImageView: ImageView = view.findViewById(R.id.imageView)
         val titleTextView: TextView = view.findViewById(R.id.tvHeaderTitle)
+        val logoAndTitleContainer: View = view.findViewById(R.id.imageView4)  // Contenedor que agrupe el logo y el nombre de la app
 
+        // Configurar acción del logo para redirigir a MainActivity
         logoImageView.setOnClickListener {
             navigateToMainActivity()
         }
 
+        // Configurar acción del texto para redirigir a MainActivity
         titleTextView.setOnClickListener {
             navigateToMainActivity()
+        }
+
+        // Configurar acción del contenedor del logo y nombre para redirigir a MainActivity
+        logoAndTitleContainer.setOnClickListener {
+            navigateToMainActivity()
+        }
+
+        // Configurar acción del logo para redirigir a PreferencesActivity
+        logoImageView.setOnLongClickListener {
+            navigateToPreferences()
+            true  // Se devuelve true para indicar que el evento fue consumido
+        }
+
+        // Configurar acción del texto para redirigir a PreferencesActivity
+        titleTextView.setOnLongClickListener {
+            navigateToPreferences()
+            true  // Se devuelve true para indicar que el evento fue consumido
         }
 
         return view
     }
 
+    // Función para navegar a la MainActivity
     private fun navigateToMainActivity() {
         val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Función para navegar a la PreferencesActivity
+    private fun navigateToPreferences() {
+        val intent = Intent(requireContext(), Preferencias::class.java)
         startActivity(intent)
     }
 
