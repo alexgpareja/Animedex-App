@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/footer_fragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:backgroundTint="@color/colorPrimary"
+    android:background="@color/colorPrimary"
     android:paddingVertical="8dp"
     android:gravity="center">
 
@@ -13,17 +14,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@color/colorPrimary"
         android:orientation="vertical"
         android:gravity="center">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:background="@color/colorPrimary"
             android:src="@drawable/search"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             android:text="@string/search"
             android:textSize="12sp"
             android:gravity="center" />
@@ -35,16 +39,19 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
+        android:background="@color/colorPrimary"
         android:gravity="center">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:background="@color/colorPrimary"
             android:src="@drawable/rounded_home_24"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             android:text="@string/home"
             android:textSize="12sp"
             android:gravity="center"/>
@@ -56,16 +63,19 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
+        android:background="@color/colorPrimary"
         android:gravity="center">
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:background="@color/colorPrimary"
             android:src="@drawable/lists" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             android:text="@string/lists"
             android:textSize="12sp"
             android:gravity="center"/>

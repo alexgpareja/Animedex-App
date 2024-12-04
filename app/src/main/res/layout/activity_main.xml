@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:theme="@style/AppTheme">
+    android:background="@color/backgroundColor">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/header"
@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:text="TOP AIRING"
             android:textSize="28sp"
+            android:textColor="@color/textColor"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -63,6 +64,7 @@
             android:layout_height="wrap_content"
             android:text="MOST POPULAR"
             android:textSize="28sp"
+            android:textColor="@color/textColor"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView

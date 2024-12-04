@@ -67,14 +67,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@color/colorSecondary"
             android:paddingVertical="12dp">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:background="@color/colorSecondary"
                 android:src="@drawable/rounded_person_24"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/colorSecondary"
                 android:layout_marginStart="12dp"
                 android:text="Account Settings"
                 android:textSize="16sp"
@@ -86,10 +89,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@color/colorSecondary"
             android:paddingVertical="12dp">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:background="@color/colorSecondary"
                 android:src="@drawable/outline_settings_24"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -97,6 +102,7 @@
                 android:layout_marginStart="12dp"
                 android:text="App Settings"
                 android:textSize="16sp"
+                android:background="@color/colorSecondary"
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
 
@@ -106,15 +112,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@color/colorSecondary"
             android:paddingVertical="12dp">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:background="@color/colorSecondary"
                 android:src="@drawable/campana"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:background="@color/colorSecondary"
                 android:text="Notifications"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
@@ -126,10 +135,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@color/colorSecondary"
             android:paddingVertical="12dp">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:background="@color/colorSecondary"
                 android:src="@drawable/rounded_lock_24"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -137,6 +148,7 @@
                 android:layout_marginStart="12dp"
                 android:text="Privacy"
                 android:textSize="16sp"
+                android:background="@color/colorSecondary"
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
     </LinearLayout>
@@ -163,15 +175,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@color/colorSecondary"
             android:paddingVertical="12dp">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:background="@color/colorSecondary"
                 android:src="@drawable/rounded_help_24"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:background="@color/colorSecondary"
                 android:text="Help"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
@@ -183,15 +198,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@color/colorSecondary"
             android:paddingVertical="12dp">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:background="@color/colorSecondary"
                 android:src="@drawable/rounded_database_24"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:background="@color/colorSecondary"
                 android:text="Delete Cache"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
@@ -203,15 +221,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@color/colorSecondary"
             android:paddingVertical="12dp">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:background="@color/colorSecondary"
                 android:src="@drawable/rounded_share_24"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:background="@color/colorSecondary"
                 android:text="Invite Friends"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_regular" />
