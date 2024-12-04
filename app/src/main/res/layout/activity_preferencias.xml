@@ -22,14 +22,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_footer2"
+        tools:layout="@layout/fragment_footer"
         tools:ignore="MissingConstraints"/>
 
     <TextView
         android:id="@+id/preferencesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
         android:text="Preferences"
         android:textSize="22sp"
@@ -255,6 +254,7 @@
         android:layout_marginTop="24dp"
         android:text="Log out"
         android:textSize="16sp"
+        style="@style/ButtonPrimary"
         android:fontFamily="@font/roboto_medium"
         app:layout_constraintTop_toBottomOf="@id/extraSettingsSection"
         app:layout_constraintStart_toStartOf="parent"
@@ -269,6 +269,7 @@
         android:layout_marginTop="16dp"
         android:text="Delete account"
         android:textSize="16sp"
+        style="@style/ButtonWarning"
         android:fontFamily="@font/roboto_medium"
         app:layout_constraintTop_toBottomOf="@id/logoutButton"
         app:layout_constraintStart_toStartOf="parent"
