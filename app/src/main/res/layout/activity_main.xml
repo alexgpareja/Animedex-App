@@ -6,14 +6,21 @@
     android:id="@+id/main"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/backgroundColor">
+    android:theme="@style/AppTheme">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_header"
         tools:ignore="MissingConstraints" />
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout="@layout/fragment_footer2"
+        tools:ignore="MissingConstraints"/>
 
     <LinearLayout
         android:id="@+id/topAiringContainer"
@@ -31,7 +38,6 @@
             android:layout_height="wrap_content"
             android:text="TOP AIRING"
             android:textSize="28sp"
-            android:textColor="@color/textColor"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -57,7 +63,6 @@
             android:layout_height="wrap_content"
             android:text="MOST POPULAR"
             android:textSize="28sp"
-            android:textColor="@color/textColor"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView

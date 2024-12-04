@@ -9,7 +9,6 @@
     android:theme="@style/AppTheme"
     tools:context=".Preferencias">
 
-    <!-- Encabezado con fragmento -->
     <fragment
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -19,7 +18,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout="@layout/fragment_header" />
 
-    <!-- Título de la pantalla -->
     <TextView
         android:id="@+id/preferencesTitle"
         android:layout_width="wrap_content"
@@ -32,7 +30,6 @@
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Caja de búsqueda -->
     <EditText
         android:id="@+id/searchBox"
         android:layout_width="0dp"
@@ -50,7 +47,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Sección 1: Opciones principales -->
     <LinearLayout
         android:id="@+id/mainSettingsSection"
         android:layout_width="0dp"
@@ -66,7 +62,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Account Settings -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,7 +81,6 @@
                 android:fontFamily="@font/roboto_regular" />
         </LinearLayout>
 
-        <!-- App Settings -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
