@@ -6,8 +6,7 @@
     android:theme="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignInActivity">
-
+    tools:context=".LogInActivity">
 
     <!-- Formulario -->
     <LinearLayout
@@ -20,22 +19,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp">
 
-        <!-- Email -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/email"
-            android:textSize="14sp"/>
-
-        <EditText
-            android:id="@+id/email_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/email"
-            android:padding="10dp"
-            android:minHeight="48dp"
-            android:layout_marginBottom="16dp" />
-
         <!-- Username -->
         <TextView
             android:layout_width="wrap_content"
@@ -47,8 +30,8 @@
             android:id="@+id/username_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
             android:hint="@string/username"
+            android:minHeight="48dp"
             android:padding="10dp"
             android:layout_marginBottom="16dp" />
 
@@ -62,26 +45,27 @@
         <EditText
             android:id="@+id/password_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:minHeight="48dp"
+            android:layout_height="wrap_content"
             android:hint="Value"
             android:inputType="textPassword"
             android:padding="10dp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Sign In Button -->
+        <!-- Log In Button -->
         <Button
-            android:id="@+id/sign_in_button"
+            android:id="@+id/log_in_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ButtonPrimary"
-            android:text="@string/sign_in"
+            android:text="@string/log_in"
             android:layout_marginBottom="16dp" />
-        <!--Or sign in with-->
+
+        <!-- Or log in with -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/or_sign_in_with"
+            android:text="Or log in with:"
             android:textSize="14sp"
             android:layout_marginBottom="8dp" />
     </LinearLayout>
@@ -153,16 +137,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/you_already_have_an_account"
+            android:text="Already have an account?"
             android:textSize="14sp"
             android:layout_marginBottom="8dp" />
 
         <Button
-            android:id="@+id/log_in_button"
+            android:id="@+id/sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ButtonPrimary"
-            android:text="@string/log_in"/>
+            android:text="@string/sign_in"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
