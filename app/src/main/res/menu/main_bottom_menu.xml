@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/bottom_search"
-        android:icon="@drawable/rounded_home_24"
+        android:id="@+id/nav_search"
+        android:icon="@drawable/rounded_search_24"
         android:title="Search" />
     <item
-        android:id="@+id/botom_home"
+        android:id="@+id/nav_home"
         android:icon="@drawable/rounded_home_24"
         android:title="Home" />
     <item
-        android:id="@+id/botom_lists"
+        android:id="@+id/nav_lists"
         android:icon="@drawable/lists"
         android:title="Lists" />
-
-
 </menu>

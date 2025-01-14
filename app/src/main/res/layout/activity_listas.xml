@@ -8,6 +8,7 @@
     android:theme="@style/AppTheme"
     tools:context=".ListasActivity">
 
+    <!-- Header -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -16,6 +17,14 @@
         tools:layout="@layout/fragment_header"
         tools:ignore="MissingConstraints" />
 
+    <!-- Contenedor del Bottom Navigation Fragment -->
+    <FrameLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Contenedor principal -->
     <LinearLayout
         android:id="@+id/ListsContainer"
         android:layout_width="0dp"
@@ -36,14 +45,5 @@
         android:textStyle="bold" />
 
     </LinearLayout>
-
-    <!-- Footer -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_footer"
-        tools:ignore="MissingConstraints"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
