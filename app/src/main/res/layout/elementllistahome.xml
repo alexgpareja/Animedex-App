@@ -24,12 +24,14 @@
                 android:orientation="vertical"
                 android:gravity="center">
 
-                <View
+                <ImageView
+                    android:id="@+id/animeImagen"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@android:color/darker_gray" />
 
                 <TextView
+                    android:id="@+id/animeNombre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
