@@ -1,0 +1,14 @@
+[
+  {
+    "nombre": "Attack on Titan",
+    "imagenResId": "attack_on_titan"
+  },
+  {
+    "nombre": "Naruto",
+    "imagenResId": "naruto"
+  },
+  {
+    "nombre": "One Piece",
+    "imagenResId": "one_piece"
+  }
+]

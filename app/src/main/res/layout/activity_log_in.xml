@@ -137,7 +137,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account?"
+            android:text="Don't have an account yet?"
             android:textSize="14sp"
             android:layout_marginBottom="8dp" />
 
