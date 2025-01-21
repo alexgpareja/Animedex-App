@@ -6,54 +6,33 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import android.graphics.BitmapFactory
-import java.net.URL
+import com.bumptech.glide.Glide
 
-class AnimeAdapter(private val animeList: List<Anime>) :
-    RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
+class AnimeAdapter(private val animeList: List<Anime>) : RecyclerView.Adapter<AnimeHolder>() {
 
-    inner class AnimeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val nameTextView: TextView = view.findViewById(R.id.animeNombre)
-        private val imageView: ImageView = view.findViewById(R.id.animeImagen)
-
-        fun bind(anime: Anime) {
-            nameTextView.text = anime.nombre
-            loadImageFromUrl(anime.imagenUrl, imageView)
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeHolder {
+        var iteminflater = LayoutInflater.from(parent.context)
+        var recycleritem = iteminflater.inflate(R.layout.elementllistahome, parent, false)
+        return AnimeHolder(recycleritem)
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.elementllistahome, parent, false)
-        return AnimeViewHolder(view)
+    override fun getItemCount(): Int {
+        return animeList.size
     }
-
-    override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
-        holder.bind(animeList[position])
+    override fun onBindViewHolder(holder: AnimeHolder, position: Int) {
+        val movie = animeList.get(position)
+        holder.Renderitzar(movie)
     }
+}
 
-    override fun getItemCount(): Int = animeList.size
+class AnimeHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    var titol: TextView = itemView.findViewById(R.id.animeNombre)
+    var foto: ImageView = itemView.findViewById(R.id.animeImagen)
 
-    // Método para cargar imágenes utilizando Thread
-    private fun loadImageFromUrl(url: String, imageView: ImageView) {
-        Thread {
-            try {
-                val connection = URL(url).openConnection()
-                connection.connect()
-                val inputStream = connection.getInputStream()
-                val bitmap = BitmapFactory.decodeStream(inputStream)
+    public fun Renderitzar(anime: Anime) {
+        titol.text = anime.nombre
 
-                // Actualizar la ImageView en el hilo principal
-                imageView.post {
-                    imageView.setImageBitmap(bitmap)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-
-                // Si ocurre un error, establece una imagen predeterminada
-                imageView.post {
-                    imageView.setImageResource(android.R.color.darker_gray) // Imagen predeterminada
-                }
-            }
-        }.start()
+        Glide.with(itemView.context)
+            .load(anime.imagenUrl)
+            .into(foto)
     }
 }

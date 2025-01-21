@@ -20,7 +20,7 @@ class Preferencias : AppCompatActivity() {
             .replace(R.id.header, FragmentHeader())
             .commit()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.footer, FooterFragment())
+            .replace(R.id.footer, BottomNavigationFragment())
             .commit()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(main)) { v, insets ->

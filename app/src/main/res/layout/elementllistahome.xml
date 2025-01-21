@@ -28,6 +28,7 @@
                     android:id="@+id/animeImagen"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:scaleType="centerCrop"
                     android:background="@android:color/darker_gray" />
 
                 <TextView

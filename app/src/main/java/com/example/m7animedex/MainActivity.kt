@@ -13,6 +13,7 @@ import com.example.m7animedex.R.id.main
 import org.json.JSONArray
 import java.net.URL
 import android.graphics.BitmapFactory
+import androidx.recyclerview.widget.GridLayoutManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var topAiringRecyclerView: RecyclerView
@@ -35,12 +36,15 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.footer, BottomNavigationFragment())
             .commit()
-        topAiringRecyclerView.layoutManager = LinearLayoutManager(this)
-        val topAiringAnimeList = loadAnimeDataFromJson()
-        topAiringRecyclerView.adapter = AnimeAdapter(topAiringAnimeList)
 
-        val decorator = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
-        topAiringRecyclerView.addItemDecoration(decorator)
+        // Configurar LayoutManager
+        topAiringRecyclerView.layoutManager =  GridLayoutManager(this, 3)
+        mostPopularRecyclerView.layoutManager = GridLayoutManager(this,3)
+
+        // Configurar el Adapter con la lista de datos
+        topAiringRecyclerView.adapter = AnimeAdapter(AnimeProvider.Animes)
+        mostPopularRecyclerView.adapter = AnimeAdapter(AnimeProvider.Animes)
+
 
         // Configurar insets para Edge-to-Edge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -48,22 +52,5 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-    }
-
-    private fun loadAnimeDataFromJson(): List<Anime> {
-        val animeList = mutableListOf<Anime>()
-        try {
-            val json = assets.open("animes.json").bufferedReader().use { it.readText() }
-            val jsonArray = JSONArray(json)
-            for (i in 0 until jsonArray.length()) {
-                val jsonObject = jsonArray.getJSONObject(i)
-                val name = jsonObject.getString("name")
-                val imageUrl = jsonObject.getString("imageUrl")
-                animeList.add(Anime(name, imageUrl))
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return animeList
     }
 }
