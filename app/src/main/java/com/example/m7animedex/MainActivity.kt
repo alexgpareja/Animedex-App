@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,13 +26,15 @@ class MainActivity : AppCompatActivity() {
         topAiringRecyclerView = findViewById(R.id.topAiringGrid)
         mostPopularRecyclerView = findViewById(R.id.mostPopularGrid)
 
+        // Añadir el Header
         supportFragmentManager.beginTransaction()
             .replace(R.id.header, FragmentHeader())
             .commit()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.footer, FooterFragment())
-            .commit()
 
+        // Añadir el Bottom Navigation Fragment
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.footer, BottomNavigationFragment())
+            .commit()
         topAiringRecyclerView.layoutManager = LinearLayoutManager(this)
         val topAiringAnimeList = loadAnimeDataFromJson()
         topAiringRecyclerView.adapter = AnimeAdapter(topAiringAnimeList)
@@ -40,7 +42,8 @@ class MainActivity : AppCompatActivity() {
         val decorator = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
         topAiringRecyclerView.addItemDecoration(decorator)
 
-        setOnApplyWindowInsetsListener(findViewById(main)) { v, insets ->
+        // Configurar insets para Edge-to-Edge
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets

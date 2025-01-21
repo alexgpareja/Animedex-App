@@ -8,6 +8,7 @@
     tools:context=".MainActivity"
     android:background="@color/backgroundColor">
 
+    <!-- Header -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -16,14 +17,26 @@
         tools:layout="@layout/fragment_header"
         tools:ignore="MissingConstraints" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <!-- Contenedor del Bottom Navigation Fragment -->
+    <FrameLayout
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/main_bottom_menu" />
+        tools:layout="@layout/fragment_bottom_navigation" />
 
+    <!-- Este es para las previews sin ejecutar la app -->
+    <!--<com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/main_bottom_menu"
+        android:background="@color/colorPrimary"
+        app:labelVisibilityMode="labeled"
+        tools:ignore="MissingConstraints" />-->
+
+    <!-- Contenido principal -->
     <LinearLayout
         android:id="@+id/topAiringContainer"
         android:layout_width="0dp"

@@ -18,6 +18,13 @@
         tools:layout="@layout/fragment_header"
         tools:ignore="MissingConstraints" />
 
+    <!-- Contenedor del Bottom Navigation Fragment -->
+    <FrameLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <!-- Contenedor principal -->
     <LinearLayout
         android:id="@+id/searchContainer"
@@ -53,12 +60,4 @@
             android:drawableStart="@drawable/rounded_search_24" />
     </LinearLayout>
 
-    <!-- Footer -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_footer"
-        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
