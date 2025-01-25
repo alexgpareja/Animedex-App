@@ -33,7 +33,7 @@
             android:textStyle="bold"/>
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/avatar_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/avatar"

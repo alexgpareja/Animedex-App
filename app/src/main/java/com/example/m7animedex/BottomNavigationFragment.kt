@@ -1,6 +1,5 @@
 package com.example.m7animedex
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,61 +12,37 @@ class BottomNavigationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflar el layout del fragmento que contiene el BottomNavigationView
         val view = inflater.inflate(R.layout.fragment_bottom_navigation, container, false)
 
         // Referencia al BottomNavigationView
         val bottomNavigationView: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
 
-        // Establecer el ítem seleccionado según la Activity actual
-        when (requireActivity()) {
-            is MainActivity -> bottomNavigationView.selectedItemId = R.id.nav_home
-            is ListasActivity -> bottomNavigationView.selectedItemId = R.id.nav_lists
-            is SearchActivity -> bottomNavigationView.selectedItemId = R.id.nav_search
+        // Establecer el ítem seleccionado según el fragmento actual
+        when (parentFragmentManager.findFragmentById(R.id.fragment_container)) {
+            is HomeFragment -> bottomNavigationView.selectedItemId = R.id.nav_home
+            is ListsFragment -> bottomNavigationView.selectedItemId = R.id.nav_lists
+            is SearchFragment -> bottomNavigationView.selectedItemId = R.id.nav_search
         }
 
-        // Configurar el listener para manejar las selecciones de los ítems del menú
+        // Configurar el listener para manejar la navegación por fragments
         bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_search -> {
-                    // Verificar si la actividad actual NO es SearchActivity
-                    if (requireActivity() !is SearchActivity) {
-                        // Crear un intent para iniciar SearchActivity
-                        val intent = Intent(requireContext(), SearchActivity::class.java)
-                        // Configurar flags para evitar acumular actividades en la pila
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                        startActivity(intent)
-                    }
-                    true
-                }
-                R.id.nav_home -> {
-                    // Verificar si la actividad actual NO es MainActivity
-                    if (requireActivity() !is MainActivity) {
-                        // Crear un intent para iniciar MainActivity
-                        val intent = Intent(requireContext(), MainActivity::class.java)
-                        // Configurar flags para evitar acumular actividades en la pila
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                        startActivity(intent)
-                    }
-                    true
-                }
-                R.id.nav_lists -> {
-                    // Verificar si la actividad actual NO es ListasActivity
-                    if (requireActivity() !is ListasActivity) {
-                        // Crear un intent para iniciar ListasActivity
-                        val intent = Intent(requireContext(), ListasActivity::class.java)
-                        // Configurar flags para evitar acumular actividades en la pila
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                        startActivity(intent)
-                    }
-                    true
-                }
-                else -> false
+            val selectedFragment = when (item.itemId) {
+                R.id.nav_search -> SearchFragment()
+                R.id.nav_home -> HomeFragment()
+                R.id.nav_lists -> ListsFragment()
+                else -> return@setOnItemSelectedListener false
             }
+
+            // Reemplazar el fragmento actual con el seleccionado
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, selectedFragment)
+                .commit()
+
+            true
         }
 
-        // Devolver la vista inflada
         return view
     }
 }
