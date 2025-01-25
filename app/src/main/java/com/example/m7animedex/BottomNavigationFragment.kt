@@ -19,11 +19,15 @@ class BottomNavigationFragment : Fragment() {
         // Referencia al BottomNavigationView
         val bottomNavigationView: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
 
+        bottomNavigationView.menu.setGroupCheckable(0, true, false)
+
+
         // Establecer el ítem seleccionado según el fragmento actual
         when (parentFragmentManager.findFragmentById(R.id.fragment_container)) {
             is HomeFragment -> bottomNavigationView.selectedItemId = R.id.nav_home
             is ListsFragment -> bottomNavigationView.selectedItemId = R.id.nav_lists
             is SearchFragment -> bottomNavigationView.selectedItemId = R.id.nav_search
+            else -> bottomNavigationView.selectedItemId = View.NO_ID
         }
 
         // Configurar el listener para manejar la navegación por fragments
