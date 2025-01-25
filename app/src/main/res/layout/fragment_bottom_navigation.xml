@@ -7,4 +7,5 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     app:menu="@menu/main_bottom_menu"
-    app:labelVisibilityMode="labeled" />
+    app:labelVisibilityMode="labeled"
+    app:layout_constraintBottom_toBottomOf="parent" />

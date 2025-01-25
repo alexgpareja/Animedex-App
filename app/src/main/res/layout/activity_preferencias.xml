@@ -9,269 +9,292 @@
     android:theme="@style/AppTheme"
     tools:context=".Preferencias">
 
+    <!-- Header fijo en la parte superior -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_header"
-        tools:ignore="MissingConstraints" />
+        tools:layout="@layout/fragment_header" />
 
+    <!-- Footer fijo en la parte inferior -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_footer"
-        tools:ignore="MissingConstraints"/>
+        tools:layout="@layout/fragment_bottom_navigation" />
 
-    <TextView
-        android:id="@+id/preferencesTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Preferences"
-        android:textSize="22sp"
-        android:fontFamily="@font/roboto_bold"
+    <!-- ScrollView para el contenido principal -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/footer">
 
-    <EditText
-        android:id="@+id/searchBox"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_section_background_search"
-        android:hint="Search"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:textSize="16sp"
-        android:fontFamily="@font/roboto_regular"
-        android:drawableStart="@drawable/rounded_search_24"
-        app:layout_constraintTop_toBottomOf="@id/preferencesTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/mainSettingsSection"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="24dp"
-        android:orientation="vertical"
-        android:divider="@android:drawable/divider_horizontal_dark"
-        android:showDividers="middle"
-        android:padding="16dp"
-        android:background="@drawable/rounded_section_background"
-        app:layout_constraintTop_toBottomOf="@id/searchBox"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@color/colorSecondary"
-            android:paddingVertical="12dp">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@color/colorSecondary"
-                android:src="@drawable/rounded_person_24"/>
+            android:layout_height="wrap_content">
+
+            <!-- Título de Preferencias -->
             <TextView
+                android:id="@+id/preferencesTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondary"
-                android:layout_marginStart="12dp"
-                android:text="Account Settings"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto_regular" />
-        </LinearLayout>
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Preferences"
+                android:textSize="22sp"
+                android:fontFamily="@font/roboto_bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@color/colorSecondary"
-            android:paddingVertical="12dp">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@color/colorSecondary"
-                android:src="@drawable/outline_settings_24"/>
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Barra de búsqueda -->
+            <EditText
+                android:id="@+id/searchBox"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_section_background_search"
+                android:hint="Search"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_regular"
+                android:drawableStart="@drawable/rounded_search_24"
+                app:layout_constraintTop_toBottomOf="@id/preferencesTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Sección principal de configuraciones -->
+            <LinearLayout
+                android:id="@+id/mainSettingsSection"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:text="App Settings"
-                android:textSize="16sp"
-                android:background="@color/colorSecondary"
-                android:fontFamily="@font/roboto_regular" />
-        </LinearLayout>
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical"
+                android:divider="@android:drawable/divider_horizontal_dark"
+                android:showDividers="middle"
+                android:padding="16dp"
+                android:background="@drawable/rounded_section_background"
+                app:layout_constraintTop_toBottomOf="@id/searchBox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Notifications -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@color/colorSecondary"
-            android:paddingVertical="12dp">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@color/colorSecondary"
-                android:src="@drawable/campana"/>
-            <TextView
-                android:layout_width="wrap_content"
+                <!-- Configuración de cuenta -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/colorSecondary"
+                    android:paddingVertical="12dp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/colorSecondary"
+                        android:src="@drawable/rounded_person_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorSecondary"
+                        android:layout_marginStart="12dp"
+                        android:text="Account Settings"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_regular" />
+                </LinearLayout>
+
+                <!-- Configuración de la aplicación -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/colorSecondary"
+                    android:paddingVertical="12dp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/colorSecondary"
+                        android:src="@drawable/outline_settings_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="App Settings"
+                        android:textSize="16sp"
+                        android:background="@color/colorSecondary"
+                        android:fontFamily="@font/roboto_regular" />
+                </LinearLayout>
+
+                <!-- Notificaciones -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/colorSecondary"
+                    android:paddingVertical="12dp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/colorSecondary"
+                        android:src="@drawable/campana"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@color/colorSecondary"
+                        android:text="Notifications"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_regular" />
+                </LinearLayout>
+
+                <!-- Privacidad -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/colorSecondary"
+                    android:paddingVertical="12dp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/colorSecondary"
+                        android:src="@drawable/rounded_lock_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="Privacy"
+                        android:textSize="16sp"
+                        android:background="@color/colorSecondary"
+                        android:fontFamily="@font/roboto_regular" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Sección de configuraciones adicionales -->
+            <LinearLayout
+                android:id="@+id/extraSettingsSection"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:background="@color/colorSecondary"
-                android:text="Notifications"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto_regular" />
-        </LinearLayout>
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical"
+                android:divider="@android:drawable/divider_horizontal_dark"
+                android:showDividers="middle"
+                android:padding="16dp"
+                android:background="@drawable/rounded_section_background"
+                app:layout_constraintTop_toBottomOf="@id/mainSettingsSection"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Privacy -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@color/colorSecondary"
-            android:paddingVertical="12dp">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@color/colorSecondary"
-                android:src="@drawable/rounded_lock_24"/>
-            <TextView
-                android:layout_width="wrap_content"
+                <!-- Ayuda -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/colorSecondary"
+                    android:paddingVertical="12dp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/colorSecondary"
+                        android:src="@drawable/rounded_help_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@color/colorSecondary"
+                        android:text="Help"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_regular" />
+                </LinearLayout>
+
+                <!-- Borrar caché -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/colorSecondary"
+                    android:paddingVertical="12dp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/colorSecondary"
+                        android:src="@drawable/rounded_database_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@color/colorSecondary"
+                        android:text="Delete Cache"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_regular" />
+                </LinearLayout>
+
+                <!-- Invitar amigos -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/colorSecondary"
+                    android:paddingVertical="12dp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@color/colorSecondary"
+                        android:src="@drawable/rounded_share_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@color/colorSecondary"
+                        android:text="Invite Friends"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_regular" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Botón de cerrar sesión -->
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:text="Privacy"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:text="Log out"
                 android:textSize="16sp"
-                android:background="@color/colorSecondary"
-                android:fontFamily="@font/roboto_regular" />
-        </LinearLayout>
-    </LinearLayout>
+                style="@style/ButtonPrimary"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintTop_toBottomOf="@id/extraSettingsSection"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Sección 2: Opciones adicionales -->
-    <LinearLayout
-        android:id="@+id/extraSettingsSection"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="24dp"
-        android:orientation="vertical"
-        android:divider="@android:drawable/divider_horizontal_dark"
-        android:showDividers="middle"
-        android:padding="16dp"
-        android:background="@drawable/rounded_section_background"
-        app:layout_constraintTop_toBottomOf="@id/mainSettingsSection"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- Help -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@color/colorSecondary"
-            android:paddingVertical="12dp">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@color/colorSecondary"
-                android:src="@drawable/rounded_help_24"/>
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Botón de eliminar cuenta -->
+            <Button
+                android:id="@+id/deleteAccountButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:background="@color/colorSecondary"
-                android:text="Help"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Delete account"
                 android:textSize="16sp"
-                android:fontFamily="@font/roboto_regular" />
-        </LinearLayout>
+                style="@style/ButtonWarning"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintTop_toBottomOf="@id/logoutButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-        <!-- Delete Cache -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@color/colorSecondary"
-            android:paddingVertical="12dp">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@color/colorSecondary"
-                android:src="@drawable/rounded_database_24"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:background="@color/colorSecondary"
-                android:text="Delete Cache"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto_regular" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-        <!-- Invite Friends -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@color/colorSecondary"
-            android:paddingVertical="12dp">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@color/colorSecondary"
-                android:src="@drawable/rounded_share_24"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:background="@color/colorSecondary"
-                android:text="Invite Friends"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto_regular" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Botón: Log out -->
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Log out"
-        android:textSize="16sp"
-        style="@style/ButtonPrimary"
-        android:fontFamily="@font/roboto_medium"
-        app:layout_constraintTop_toBottomOf="@id/extraSettingsSection"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Botón: Delete account -->
-    <Button
-        android:id="@+id/deleteAccountButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Delete account"
-        android:textSize="16sp"
-        style="@style/ButtonWarning"
-        android:fontFamily="@font/roboto_medium"
-        app:layout_constraintTop_toBottomOf="@id/logoutButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

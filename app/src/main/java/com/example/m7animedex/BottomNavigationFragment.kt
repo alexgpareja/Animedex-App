@@ -20,6 +20,13 @@ class BottomNavigationFragment : Fragment() {
         // Referencia al BottomNavigationView
         val bottomNavigationView: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
 
+        // Establecer el ítem seleccionado según la Activity actual
+        when (requireActivity()) {
+            is MainActivity -> bottomNavigationView.selectedItemId = R.id.nav_home
+            is ListasActivity -> bottomNavigationView.selectedItemId = R.id.nav_lists
+            is SearchActivity -> bottomNavigationView.selectedItemId = R.id.nav_search
+        }
+
         // Configurar el listener para manejar las selecciones de los ítems del menú
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {

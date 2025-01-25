@@ -25,10 +25,14 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.header, FragmentHeader())
             .commit()
 
+        // Añadir el Bottom Navigation Fragment
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.bottom_navigation, BottomNavigationFragment())
+            .commit()
+
         // Configurar LayoutManager para que los RecyclerView sean horizontales
         topAiringRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         mostPopularRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
 
 
         // Configurar el Adapter con la lista de datos
