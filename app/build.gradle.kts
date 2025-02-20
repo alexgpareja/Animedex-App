@@ -36,9 +36,10 @@ android {
 }
 
 dependencies {
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation ("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation(libs.retrofit)
+    implementation(libs.glide)
+    implementation (libs.androidx.recyclerview)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
