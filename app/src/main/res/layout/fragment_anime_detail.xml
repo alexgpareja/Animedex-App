@@ -1,0 +1,86 @@
+<!-- res/layout/fragment_anime_detail.xml -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Imatge de l'anime -->
+        <ImageView
+            android:id="@+id/animeDetailImageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/anime_image" />
+
+        <!-- Títol de l'anime -->
+        <TextView
+            android:id="@+id/animeDetailTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <!-- Sinopsi -->
+        <TextView
+            android:id="@+id/animeDetailSynopsisTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Gèneres -->
+        <TextView
+            android:id="@+id/animeDetailGenresTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Data d'inici i finalització -->
+        <TextView
+            android:id="@+id/animeDetailDatesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Puntuació mitjana -->
+        <TextView
+            android:id="@+id/animeDetailMeanTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Estat -->
+        <TextView
+            android:id="@+id/animeDetailStatusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Nombre d'episodis -->
+        <TextView
+            android:id="@+id/animeDetailEpisodesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Temporada d'inici -->
+        <TextView
+            android:id="@+id/animeDetailSeasonTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+</ScrollView>
