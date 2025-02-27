@@ -16,7 +16,7 @@
             android:padding="8dp">
 
             <ImageView
-                android:id="@+id/animeImagen"
+                android:id="@+id/animeImagenHome"
                 android:layout_width="150dp"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
@@ -24,7 +24,7 @@
                 android:layout_gravity="center" />
 
             <TextView
-                android:id="@+id/animeNombre"
+                android:id="@+id/animeNombreHome"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"

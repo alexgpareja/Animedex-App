@@ -27,7 +27,7 @@ class AnimeAPI {
                     .create()
 
                 mAPI = Retrofit.Builder()
-                    .baseUrl("https://api.anime.com/")  // Canvia aquesta URL per la de la teva API
+                    .baseUrl("https://3.217.167.4/")  // Canvia aquesta URL per la de la teva API
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build()
