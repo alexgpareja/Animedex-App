@@ -21,7 +21,7 @@ class HomeViewModel(private val apiService: AnimeService) : ViewModel() {
     private fun fetchTopAiringAnime() {
         viewModelScope.launch {
             try {
-                val response = apiService.getTopAiringAnime()
+                val response = apiService.getAiringAnime()
                 if (response.isSuccessful) {
                     _topAiringAnime.postValue(response.body()) // Enviamos la lista de animes al LiveData
                 } else {

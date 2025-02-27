@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 data class Anime(
     val id: Int,
     val title: String,
-    val mainPicture: String? = null,  // Opcional
+    val mainPicture: String?,  // Opcional
     val startDate: LocalDate?,        // Opcional
     val endDate: LocalDate?,          // Opcional
     val synopsis: String,
