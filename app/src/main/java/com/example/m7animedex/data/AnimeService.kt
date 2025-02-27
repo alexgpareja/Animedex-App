@@ -21,6 +21,10 @@ interface AnimeService {
     @GET("animes/{id}")
     suspend fun getAnimeById(@Path("id") id: Int): Response<Anime>
 
+    @GET("anime/airing") // Endpoint correcto según tu API
+    suspend fun getTopAiringAnime(): Response<List<Anime>>
+
+
     // Afegir un nou anime
     @POST("animes/")
     suspend fun addAnime(@Body anime: Anime): Response<Void>

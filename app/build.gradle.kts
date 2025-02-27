@@ -40,8 +40,9 @@ dependencies {
     // retrofit
     implementation(libs.retrofit)
     // gson converter
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation (libs.converter.gson)
-
     implementation(libs.glide)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -1,6 +1,7 @@
 package com.example.m7animedex.data
 
 // data/api/AnimeAPI.kt
+import com.example.m7animedex.data.api.AnimeService
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
