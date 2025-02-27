@@ -8,12 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.m7animedex.data.model.Anime
-class AnimeAdapter(private var animeList: MutableList<Anime> = mutableListOf()) : RecyclerView.Adapter<AnimeHolder>() {
+
+class AnimeAdapter(
+    private var animeList: MutableList<Anime> = mutableListOf(),
+    private val onAnimeClickListener: (Anime) -> Unit // Listener para manejar clics
+) : RecyclerView.Adapter<AnimeHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.elementllistahome, parent, false)
-        return AnimeHolder(view)
+        return AnimeHolder(view, onAnimeClickListener)
     }
 
     override fun getItemCount(): Int = animeList.size
@@ -24,26 +28,30 @@ class AnimeAdapter(private var animeList: MutableList<Anime> = mutableListOf()) 
 
     // Método para actualizar la lista de animes dinámicamente
     fun updateList(newList: List<Anime>) {
-        animeList = newList.toMutableList() // Convierte a mutable antes de asignar
-        notifyDataSetChanged() // Notifica cambios al RecyclerView
+        animeList = newList.toMutableList()
+        notifyDataSetChanged()
     }
 }
 
-class AnimeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class AnimeHolder(itemView: View, private val onAnimeClickListener: (Anime) -> Unit) : RecyclerView.ViewHolder(itemView) {
     private val titulo: TextView = itemView.findViewById(R.id.animeNombreHome)
     private val imagen: ImageView = itemView.findViewById(R.id.animeImagenHome)
 
     fun bind(anime: Anime) {
-        val maxLength = 20 // Número máximo de caracteres antes de truncar
+        val maxLength = 20
         titulo.text = if (anime.title.length > maxLength) {
-            "${anime.title.substring(0, maxLength)}..." // Corta el texto y agrega "..."
+            "${anime.title.substring(0, maxLength)}..."
         } else {
-            anime.title // Si es menor, lo muestra completo
+            anime.title
         }
 
         Glide.with(itemView.context)
-            .load(anime.mainPicture)
+            .load(anime.main_picture)
             .into(imagen)
-    }
 
+        // Configurar el clic en el elemento
+        itemView.setOnClickListener {
+            onAnimeClickListener(anime)
+        }
+    }
 }

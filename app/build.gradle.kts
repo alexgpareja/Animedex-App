@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
-    id("kotlin-kapt") // Necesario para Glide Compiler
+    id("kotlin-kapt")
 }
 
 android {
@@ -49,7 +49,6 @@ dependencies {
 
     // Glide
     implementation(libs.glide) // Dependencia principal de Glide
-
     // Otras dependencias
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

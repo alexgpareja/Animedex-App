@@ -10,18 +10,16 @@ import java.time.LocalDateTime
 data class Anime(
     val id: Int,
     val title: String,
-    val mainPicture: String?,  // Opcional
-    val startDate: LocalDate?,        // Opcional
-    val endDate: LocalDate?,          // Opcional
+    val main_picture: String?,  // Opcional
+    val start_date: String?,        // Opcional
+    val end_date: String?,          // Opcional
     val synopsis: String,
     val mean: Float? = null,          // Opcional
     val rank: Int? = null,            // Opcional
     val popularity: Int? = null,      // Opcional
-    val mediaType: String,
+    val media_type: String,
     val status: String,
-    val numEpisodes: Int? = null,     // Opcional
-    val startSeason: String? = null,  // Opcional
-    val dateAdded: LocalDateTime,
-    val dateFinished: LocalDateTime? = null,  // Opcional
+    val num_episodes: Int? = null,     // Opcional
+    val start_season: String? = null,  // Opcional
     val genres: List<Genre>           // Llista de gèneres associats
 ) : Parcelable

@@ -27,7 +27,7 @@ class TopAiringAdapter(private var animeList: List<Anime>) :
         holder.animeNombre.text = anime.title
 
         Glide.with(holder.itemView.context)
-            .load(anime.mainPicture)
+            .load(anime.main_picture)
             .into(holder.animeImagen)
     }
 
