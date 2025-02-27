@@ -14,4 +14,17 @@
     <string name="you_already_have_an_account">You already have an account?</string>
     <string name="log_in">Log in</string>
     <string name="or_sign_in_with">Or sign in with:</string>
+
+    <!-- Anime Detail -->
+    <string name="start_date_label">Start Date:</string>
+    <string name="end_date_label">End Date:</string>
+    <string name="mean_label">Mean:</string>
+    <string name="rank_label">Rank:</string>
+    <string name="popularity_label">Popularity:</string>
+    <string name="media_type_label">Media Type:</string>
+    <string name="status_label">Status:</string>
+    <string name="genres_label">Genres:</string>
+    <string name="synopsis_label">Synopsis:</string>
+    <string name="anime_image_description">Main picture of the anime</string>
+    <string name="add_to_favorites">Add to Favorites</string>
 </resources>

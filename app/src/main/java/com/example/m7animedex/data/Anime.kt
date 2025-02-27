@@ -21,7 +21,5 @@ data class Anime(
     val status: String,
     val numEpisodes: Int? = null,     // Opcional
     val startSeason: String? = null,  // Opcional
-    val dateAdded: LocalDateTime,
-    val dateFinished: LocalDateTime? = null,  // Opcional
     val genres: List<Genre>           // Llista de gèneres associats
 ) : Parcelable
