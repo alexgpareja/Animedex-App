@@ -28,6 +28,18 @@ interface AnimeService {
     @GET("favorites/")
     suspend fun getFavorites(): Response<List<Fav>>
 
+    // 🔹 Obtener animes favoritos con status Planned (NUEVO ENDPOINT)
+    @GET("favorites/planned")
+    suspend fun getPlannedFavorites(): Response<List<Fav>>
+
+    // 🔹 Obtener animes favoritos con status Watching (NUEVO ENDPOINT)
+    @GET("favorites/watching")
+    suspend fun getWatchingFavorites(): Response<List<Fav>>
+
+    // 🔹 Obtener animes favoritos con status Completed (NUEVO ENDPOINT)
+    @GET("favorites/completed")
+    suspend fun getCompletedFavorites(): Response<List<Fav>>
+
     // 🔹 Agregar un anime a favoritos
     @POST("favorites/")
     suspend fun addFavorite(@Query("id_anime") idAnime: Int, @Query("status") status: String = "Planned"): Response<Void>
