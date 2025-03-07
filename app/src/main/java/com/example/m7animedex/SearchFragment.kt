@@ -38,8 +38,9 @@ class SearchFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Configurar el adaptador
-        adapter = FavAnimeAdapter(animeList, animeList, mutableListOf()) { anime ->
-            openAnimeDetail(anime)
+        adapter = FavAnimeAdapter(animeList, animeList, mutableListOf<Fav>()) { anime ->
+            // Acción al hacer clic en un anime: abrir el detalle del anime
+            openAnimeDetailFragment(anime)
         }
         recyclerView.adapter = adapter
 
@@ -59,18 +60,6 @@ class SearchFragment : Fragment() {
         }
 
         return view
-    }
-
-    private fun openAnimeDetail(anime: Anime) {
-        val detailFragment = AnimeDetailFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable("ARG_ANIME", anime)
-            }
-        }
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, detailFragment)
-            .addToBackStack(null)
-            .commit()
     }
 
     /**
@@ -125,5 +114,20 @@ class SearchFragment : Fragment() {
                 Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    /**
+     * Abre el fragmento de detalles del anime seleccionado.
+     */
+    private fun openAnimeDetailFragment(anime: Anime) {
+        val fragment = AnimeDetailFragment()
+        val args = Bundle()
+        args.putParcelable("ARG_ANIME", anime)
+        fragment.arguments = args
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

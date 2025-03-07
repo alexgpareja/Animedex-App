@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+
 class ListsFragment : Fragment() {
 
     private lateinit var searchEditText: EditText
@@ -50,7 +51,8 @@ class ListsFragment : Fragment() {
         // Configurar el RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         favAnimeAdapter = FavAnimeAdapter(mutableListOf()) { anime ->
-            Toast.makeText(requireContext(), "Seleccionaste: ${anime.title}", Toast.LENGTH_SHORT).show()
+            // Acción al hacer clic en un anime: abrir el detalle del anime
+            openAnimeDetailFragment(anime)
         }
         recyclerView.adapter = favAnimeAdapter
 
@@ -180,14 +182,17 @@ class ListsFragment : Fragment() {
         return animeList
     }
 
-    private fun openAnimeDetail(anime: Anime) {
-        val detailFragment = AnimeDetailFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable("ARG_ANIME", anime)
-            }
-        }
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, detailFragment)
+    /**
+     * Abre el fragmento de detalles del anime seleccionado.
+     */
+    private fun openAnimeDetailFragment(anime: Anime) {
+        val fragment = AnimeDetailFragment()
+        val args = Bundle()
+        args.putParcelable("ARG_ANIME", anime)
+        fragment.arguments = args
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
     }
