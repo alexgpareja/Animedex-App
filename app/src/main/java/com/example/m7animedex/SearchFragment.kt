@@ -1,31 +1,117 @@
 package com.example.m7animedex
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.m7animedex.data.AnimeAPI
+import com.example.m7animedex.data.api.AnimeService
+import com.example.m7animedex.data.model.Anime
+import com.example.m7animedex.data.model.Fav
+import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class SearchFragment : Fragment() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: FavAnimeAdapter
+    private lateinit var searchBox: EditText
+    private val animeList: MutableList<Anime> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflar el layout del fragmento
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        val view = inflater.inflate(R.layout.fragment_search, container, false)
+
+        // Inicializar vistas
+        searchBox = view.findViewById(R.id.searchBox)
+        recyclerView = view.findViewById(R.id.recyclerViewAnimes)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Configurar el adaptador
+        adapter = FavAnimeAdapter(animeList, animeList, mutableListOf<Fav>()) { anime ->
+            // Acción al hacer clic en un anime (opcional)
+            Toast.makeText(requireContext(), "Seleccionaste ${anime.title}", Toast.LENGTH_SHORT).show()
+        }
+        recyclerView.adapter = adapter
+
+        // Configurar el listener para el buscador
+        searchBox.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.ACTION_DOWN) {
+                val query = searchBox.text.toString().trim()
+                if (query.isNotEmpty()) {
+                    searchAnimes(query)
+                } else {
+                    loadAllAnimes()
+                }
+                true
+            } else {
+                false
+            }
+        }
+
+        return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    /**
+     * Busca animes por título utilizando el endpoint /anime/search.
+     */
+    private fun searchAnimes(query: String) {
+        lifecycleScope.launch {
+            try {
+                val response = AnimeAPI.getService().searchAnimes(query)
+                if (response.isSuccessful && response.body() != null) {
+                    val animes = response.body()!!
 
-        // Configurar padding para evitar solapamientos con las barras del sistema
-        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+                    // Limpiar la lista actual
+                    animeList.clear()
+
+                    // Agregar los resultados a la lista
+                    animeList.addAll(animes)
+
+                    // Actualizar el adaptador
+                    adapter.updateList(animes, mutableListOf<Fav>())
+                } else {
+                    Toast.makeText(requireContext(), "Error al buscar animes", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * Carga todos los animes disponibles utilizando el endpoint /anime/all.
+     */
+    private fun loadAllAnimes() {
+        lifecycleScope.launch {
+            try {
+                val response = AnimeAPI.getService().getRandomAnimes()
+                if (response.isSuccessful && response.body() != null) {
+                    val animes = response.body()!!
+
+                    // Limpiar la lista actual
+                    animeList.clear()
+
+                    // Agregar los resultados a la lista
+                    animeList.addAll(animes)
+
+                    // Actualizar el adaptador
+                    adapter.updateList(animes, mutableListOf<Fav>())
+                } else {
+                    Toast.makeText(requireContext(), "Error al cargar animes", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
