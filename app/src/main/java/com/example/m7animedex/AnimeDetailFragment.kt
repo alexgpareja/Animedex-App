@@ -56,6 +56,7 @@ class AnimeDetailFragment : Fragment() {
             animeTitle.text = it.title
             animeSynopsisText.text = it.synopsis ?: "Sinopsis no disponible"
 
+
             // Comprobar si el anime ya está en favoritos y actualizar el ícono.
             checkIfFavorite(it.id, fabAddToFavorites)
         }

@@ -1,5 +1,6 @@
 package com.example.m7animedex
 
+import AnimeDetailFragment
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -37,9 +38,8 @@ class SearchFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Configurar el adaptador
-        adapter = FavAnimeAdapter(animeList, animeList, mutableListOf<Fav>()) { anime ->
-            // Acción al hacer clic en un anime (opcional)
-            Toast.makeText(requireContext(), "Seleccionaste ${anime.title}", Toast.LENGTH_SHORT).show()
+        adapter = FavAnimeAdapter(animeList, animeList, mutableListOf()) { anime ->
+            openAnimeDetail(anime)
         }
         recyclerView.adapter = adapter
 
@@ -59,6 +59,18 @@ class SearchFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun openAnimeDetail(anime: Anime) {
+        val detailFragment = AnimeDetailFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable("ARG_ANIME", anime)
+            }
+        }
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     /**

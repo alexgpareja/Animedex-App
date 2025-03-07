@@ -1,5 +1,6 @@
 package com.example.m7animedex
 
+import AnimeDetailFragment
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -177,5 +178,17 @@ class ListsFragment : Fragment() {
             }
         }
         return animeList
+    }
+
+    private fun openAnimeDetail(anime: Anime) {
+        val detailFragment = AnimeDetailFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable("ARG_ANIME", anime)
+            }
+        }
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
