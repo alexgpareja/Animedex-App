@@ -52,23 +52,13 @@ interface AnimeService {
     @GET("favorites/completed")
     suspend fun getCompletedFavorites(): Response<List<Fav>>
 
-
-    // 🔹 Agregar un anime a favoritos
-    @FormUrlEncoded
     @POST("favorites/")
     suspend fun addFavorite(
-        @Field("id_anime") idAnime: Int,
-        @Field("status") status: String = "Planned"
-    ): Response<Void>
-
-    // 🔹 Actualizar estado de un anime en favoritos
-    @PUT("favorites/{id_anime}/status")
-    suspend fun updateFavoriteStatus(
-        @Path("id_anime") idAnime: Int,
-        @Query("status") status: String
+        @Query("id_anime") idAnime: Int, // ID del anime a añadir
+        @Query("status") status: String = "Planned" // Estado inicial (opcional, con valor predeterminado)
     ): Response<Void>
 
     // 🔹 Eliminar un anime de favoritos
     @DELETE("favorites/{id_anime}")
-    suspend fun deleteFavorite(@Path("id_anime") idAnime: Int): Response<Void>
+    suspend fun removeFavorite(@Path("id_anime") idAnime: Int): Response<Void>
 }

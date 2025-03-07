@@ -104,7 +104,7 @@ class AnimeDetailFragment : Fragment() {
     private fun removeFromFavorites(idAnime: Int, fab: FloatingActionButton) {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val response = animeApiService.deleteFavorite(idAnime)
+                val response = animeApiService.removeFavorite(idAnime)
                 if (response.isSuccessful) {
                     isFavorite = false
                     updateFabIcon(fab) // Cambia el ícono a "vacío".
