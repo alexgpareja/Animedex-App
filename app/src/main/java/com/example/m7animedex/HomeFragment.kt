@@ -1,5 +1,6 @@
 package com.example.m7animedex
 
+import AnimeDetailFragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.m7animedex.data.AnimeAPI
 import com.example.m7animedex.data.api.AnimeService
+import com.example.m7animedex.data.model.Anime
 import kotlinx.coroutines.launch
-
 class HomeFragment : Fragment() {
     private lateinit var topAiringRecyclerView: RecyclerView
     private lateinit var mostPopularRecyclerView: RecyclerView
@@ -39,29 +40,52 @@ class HomeFragment : Fragment() {
         mostPopularRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        topAiringAdapter = AnimeAdapter(mutableListOf())
-        mostPopularAdapter = AnimeAdapter(mutableListOf())
+        // Define la función onItemClick aquí
+        val onItemClick: (Anime) -> Unit = { anime ->
+            openAnimeDetailFragment(anime)
+        }
+
+        topAiringAdapter = AnimeAdapter(mutableListOf(), onItemClick)
+        mostPopularAdapter = AnimeAdapter(mutableListOf(), onItemClick)
 
         topAiringRecyclerView.adapter = topAiringAdapter
         mostPopularRecyclerView.adapter = mostPopularAdapter
 
-        // 🔹 Se obtiene correctamente la instancia de AnimeService
         animeApiService = AnimeAPI.getService()
 
         fetchTopAiringAnimes()
         fetchMostPopularAnimes()
     }
 
+    private fun openAnimeDetailFragment(anime: Anime) {
+        val fragment = AnimeDetailFragment()
+        val args = Bundle()
+        args.putParcelable("ARG_ANIME", anime)
+        fragment.arguments = args
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
     private fun fetchTopAiringAnimes() {
         lifecycleScope.launch {
             try {
-                val response = animeApiService.getAiringAnime() // ✅ Se usa el nombre correcto del método
+                val response = animeApiService.getAiringAnime()
                 if (response.isSuccessful) {
                     val animes = response.body() ?: emptyList()
-                    topAiringAdapter.updateList(animes) // ✅ Método en AnimeAdapter para actualizar datos
+                    topAiringAdapter.updateList(animes)
                 } else {
-                    Log.e("HomeFragment", "Error al obtener animes en emisión: ${response.errorBody()?.string()}")
-                    Toast.makeText(requireContext(), "Error al obtener animes en emisión", Toast.LENGTH_SHORT).show()
+                    Log.e(
+                        "HomeFragment",
+                        "Error al obtener animes en emisión: ${response.errorBody()?.string()}"
+                    )
+                    Toast.makeText(
+                        requireContext(),
+                        "Error al obtener animes en emisión",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: Exception) {
                 Log.e("HomeFragment", "Error en la petición: ${e.message}")
@@ -73,13 +97,20 @@ class HomeFragment : Fragment() {
     private fun fetchMostPopularAnimes() {
         lifecycleScope.launch {
             try {
-                val response = animeApiService.getPopularAnime() // ✅ Se usa el nombre correcto del método
+                val response = animeApiService.getPopularAnime()
                 if (response.isSuccessful) {
                     val mostPopularAnimes = response.body() ?: emptyList()
-                    mostPopularAdapter.updateList(mostPopularAnimes) // ✅ Se usa la lista directamente
+                    mostPopularAdapter.updateList(mostPopularAnimes)
                 } else {
-                    Log.e("HomeFragment", "Error al obtener animes populares: ${response.errorBody()?.string()}")
-                    Toast.makeText(requireContext(), "Error al obtener animes populares", Toast.LENGTH_SHORT).show()
+                    Log.e(
+                        "HomeFragment",
+                        "Error al obtener animes populares: ${response.errorBody()?.string()}"
+                    )
+                    Toast.makeText(
+                        requireContext(),
+                        "Error al obtener animes populares",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: Exception) {
                 Log.e("HomeFragment", "Error en la petición: ${e.message}")

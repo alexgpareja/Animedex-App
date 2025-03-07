@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.m7animedex.data.model.Anime
-class TopAiringAdapter(private var animeList: List<Anime>) :
+class TopAiringAdapter(private var animeList: List<Anime>,
+                       private val onItemClickListener: (Anime) -> Unit
+) :
     RecyclerView.Adapter<TopAiringAdapter.AnimeViewHolder>() {
 
     class AnimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -29,6 +31,11 @@ class TopAiringAdapter(private var animeList: List<Anime>) :
         Glide.with(holder.itemView.context)
             .load(anime.main_picture)
             .into(holder.animeImagen)
+
+        // Configurar el click listener
+        holder.itemView.setOnClickListener {
+            onItemClickListener(anime) // Pasar el objeto Anime al listener
+        }
     }
 
     override fun getItemCount(): Int = animeList.size

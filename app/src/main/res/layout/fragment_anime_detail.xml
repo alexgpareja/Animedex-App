@@ -52,7 +52,7 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/add_to_favorites"
         app:srcCompat="@drawable/ic_favorite_border"
-        android:backgroundTint="@android:color/holo_red_dark" />
+        android:backgroundTint="@color/colorPrimary" />
 
     <!-- Contingut principal -->
     <androidx.core.widget.NestedScrollView

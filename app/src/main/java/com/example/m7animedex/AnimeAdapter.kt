@@ -10,41 +10,48 @@ import com.bumptech.glide.Glide
 import com.example.m7animedex.data.model.Anime
 
 class AnimeAdapter(
-    private var animeList: MutableList<Anime> = mutableListOf()
-) : RecyclerView.Adapter<AnimeHolder>() {
+    private var animeList: MutableList<Anime>,
+    private val onItemClick: (Anime) -> Unit
+) : RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.elementllistahome, parent, false)
-        return AnimeHolder(view)
+    class AnimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val animeImagenHome: ImageView = itemView.findViewById(R.id.animeImagenHome)
+        val animeNombreHome: TextView = itemView.findViewById(R.id.animeNombreHome)
     }
 
-    override fun getItemCount(): Int = animeList.size
-
-    override fun onBindViewHolder(holder: AnimeHolder, position: Int) {
-        holder.bind(animeList[position])
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.elementllistahome, parent, false)
+        return AnimeViewHolder(view)
     }
 
-    fun updateList(newList: List<Anime>) {
-        animeList = newList.toMutableList()
-        notifyDataSetChanged()
-    }
-}
+    override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
+        val anime = animeList[position]
+        val maxLength = 20 // Define la longitud máxima del título
 
-class AnimeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val titulo: TextView = itemView.findViewById(R.id.animeNombreHome)
-    private val imagen: ImageView = itemView.findViewById(R.id.animeImagenHome)
-
-    fun bind(anime: Anime) {
-        val maxLength = 20
-        titulo.text = if (anime.title.length > maxLength) {
+        // Acorta el título si es necesario
+        val shortTitle = if (anime.title.length > maxLength) {
             "${anime.title.substring(0, maxLength)}..."
         } else {
             anime.title
         }
 
-        Glide.with(itemView.context)
+        holder.animeNombreHome.text = shortTitle // Usa el título acortado
+
+        Glide.with(holder.itemView.context)
             .load(anime.main_picture)
-            .into(imagen)
+            .into(holder.animeImagenHome)
+
+        holder.itemView.setOnClickListener {
+            onItemClick(anime)
+        }
+    }
+
+    override fun getItemCount(): Int = animeList.size
+
+    fun updateList(newList: List<Anime>) {
+        animeList.clear()
+        animeList.addAll(newList)
+        notifyDataSetChanged()
     }
 }

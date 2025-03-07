@@ -3,8 +3,6 @@ package com.example.m7animedex.data.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Parcelize
 data class Anime(

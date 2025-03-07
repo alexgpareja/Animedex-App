@@ -4,6 +4,8 @@ import com.example.m7animedex.data.model.Anime
 import com.example.m7animedex.data.model.Fav
 import retrofit2.Response
 import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -52,8 +54,12 @@ interface AnimeService {
 
 
     // 🔹 Agregar un anime a favoritos
+    @FormUrlEncoded
     @POST("favorites/")
-    suspend fun addFavorite(@Query("id_anime") idAnime: Int, @Query("status") status: String = "Planned"): Response<Void>
+    suspend fun addFavorite(
+        @Field("id_anime") idAnime: Int,
+        @Field("status") status: String = "Planned"
+    ): Response<Void>
 
     // 🔹 Actualizar estado de un anime en favoritos
     @PUT("favorites/{id_anime}/status")
