@@ -63,6 +63,21 @@ class SearchFragment : Fragment() {
     }
 
     /**
+     * Abre el fragmento de detalles del anime seleccionado.
+     */
+    private fun openAnimeDetailFragment(anime: Anime) {
+        val fragment = AnimeDetailFragment()
+        val args = Bundle()
+        args.putParcelable("ARG_ANIME", anime)
+        fragment.arguments = args
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    /**
      * Busca animes por título utilizando el endpoint /anime/search.
      */
     private fun searchAnimes(query: String) {
@@ -114,20 +129,5 @@ class SearchFragment : Fragment() {
                 Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    /**
-     * Abre el fragmento de detalles del anime seleccionado.
-     */
-    private fun openAnimeDetailFragment(anime: Anime) {
-        val fragment = AnimeDetailFragment()
-        val args = Bundle()
-        args.putParcelable("ARG_ANIME", anime)
-        fragment.arguments = args
-
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
     }
 }
