@@ -45,6 +45,14 @@ class AnimeDetailFragment : Fragment() {
         val animeMainPicture: ImageView = view.findViewById(R.id.anime_main_picture)
         val animeTitle: TextView = view.findViewById(R.id.anime_title)
         val animeSynopsisText: TextView = view.findViewById(R.id.anime_synopsis_text)
+        val animeGenres: TextView = view.findViewById(R.id.anime_genres)
+        val animeStartDate: TextView = view.findViewById(R.id.anime_start_date)
+        val animeEndDate: TextView = view.findViewById(R.id.anime_end_date)
+        val animeMean: TextView = view.findViewById(R.id.anime_mean)
+        val animeRank: TextView = view.findViewById(R.id.anime_rank)
+        val animePopularity: TextView = view.findViewById(R.id.anime_popularity)
+        val animeMediaType: TextView = view.findViewById(R.id.anime_media_type)
+        val animeStatus: TextView = view.findViewById(R.id.anime_status)
         val fabAddToFavorites: FloatingActionButton = view.findViewById(R.id.fab_add_to_favorites)
 
         // Cargar los datos del anime en las vistas.
@@ -55,7 +63,14 @@ class AnimeDetailFragment : Fragment() {
 
             animeTitle.text = it.title
             animeSynopsisText.text = it.synopsis ?: "Sinopsis no disponible"
-
+            animeGenres.text = it.genres.joinToString(", ") { genre -> genre.name }
+            animeStartDate.text = it.start_date ?: "Fecha no disponible"
+            animeEndDate.text = it.end_date ?: "Fecha no disponible"
+            animeMean.text = it.mean?.toString() ?: "N/A"
+            animeRank.text = it.rank?.toString() ?: "N/A"
+            animePopularity.text = it.popularity?.toString() ?: "N/A"
+            animeMediaType.text = it.media_type ?: "N/A"
+            animeStatus.text = it.status ?: "N/A"
 
             // Comprobar si el anime ya está en favoritos y actualizar el ícono.
             checkIfFavorite(it.id, fabAddToFavorites)
