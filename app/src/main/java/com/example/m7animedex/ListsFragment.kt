@@ -32,8 +32,9 @@ class ListsFragment : Fragment() {
     private lateinit var favAnimeAdapter: FavAnimeAdapter
     private val animeService: AnimeService = AnimeAPI.getService()
 
-    // 🔹 Variable para rastrear el estado actual
+    // 🔹 Variables para rastrear el estado actual y la consulta de búsqueda
     private var currentStatus: String = "Planned"
+    private var currentQuery: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,20 +58,20 @@ class ListsFragment : Fragment() {
         recyclerView.adapter = favAnimeAdapter
 
         // Cargar datos iniciales
-        loadFavorites(currentStatus)
+        loadFilteredData()
 
         // Configurar los botones de filtro
         buttonPlanned.setOnClickListener {
             currentStatus = "Planned"
-            loadFavorites(currentStatus)
+            loadFilteredData()
         }
         buttonWatching.setOnClickListener {
             currentStatus = "Watching"
-            loadFavorites(currentStatus)
+            loadFilteredData()
         }
         buttonWatched.setOnClickListener {
             currentStatus = "Completed"
-            loadFavorites(currentStatus)
+            loadFilteredData()
         }
 
         // Configurar el buscador
@@ -87,11 +88,13 @@ class ListsFragment : Fragment() {
             if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.ACTION_DOWN) {
                 val query = searchEditText.text.toString().trim()
                 if (query.isNotEmpty()) {
-                    // Si hay una consulta, buscar favoritos por título
-                    searchFavorites(query)
+                    // Si hay una consulta, actualizar la variable y cargar datos filtrados
+                    currentQuery = query
+                    loadFilteredData()
                 } else {
-                    // Si el campo está vacío, cargar todos los favoritos del estado actual
-                    loadFavorites(currentStatus)
+                    // Si el campo está vacío, limpiar la consulta y cargar todos los favoritos
+                    currentQuery = ""
+                    loadFilteredData()
                 }
                 true
             } else {
@@ -101,17 +104,32 @@ class ListsFragment : Fragment() {
     }
 
     /**
-     * Busca favoritos por título utilizando el endpoint /favorites/search.
+     * Carga los datos filtrados según el estado actual y la consulta de búsqueda.
      */
-    private fun searchFavorites(query: String) {
+    private fun loadFilteredData() {
+        if (currentQuery.isNotEmpty()) {
+            // Si hay una consulta, buscar favoritos por título y estado
+            searchFavorites(currentQuery, currentStatus)
+        } else {
+            // Si no hay consulta, cargar todos los favoritos del estado actual
+            loadFavoritesByStatus(currentStatus)
+        }
+    }
+
+    /**
+     * Busca favoritos por título y estado utilizando el endpoint /favorites/search.
+     */
+    private fun searchFavorites(query: String, status: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = animeService.searchFavorites(query)
                 if (response.isSuccessful) {
                     val favorites = response.body() ?: emptyList()
-                    val animeList = getAnimeDetails(favorites)
+                    // Filtrar los favoritos por estado
+                    val filteredFavorites = favorites.filter { it.status.equals(status, ignoreCase = true) }
+                    val animeList = getAnimeDetails(filteredFavorites)
                     withContext(Dispatchers.Main) {
-                        favAnimeAdapter.updateList(animeList, favorites)
+                        favAnimeAdapter.updateList(animeList, filteredFavorites)
                     }
                 } else {
                     withContext(Dispatchers.Main) {
@@ -129,7 +147,7 @@ class ListsFragment : Fragment() {
     /**
      * Carga los favoritos según el estado seleccionado (Planned, Watching, Completed).
      */
-    private fun loadFavorites(status: String) {
+    private fun loadFavoritesByStatus(status: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = when (status) {
