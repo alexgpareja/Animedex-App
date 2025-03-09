@@ -120,12 +120,14 @@ class SearchFragment : Fragment() {
      * Abre el fragmento de detalles del anime seleccionado.
      */
     private fun openAnimeDetailFragment(anime: Anime) {
-        val fragment = AnimeDetailFragment()
-        val args = Bundle()
-        args.putParcelable("ARG_ANIME", anime)
-        fragment.arguments = args
+        val fragment = AnimeDetailFragment().apply {
+            arguments = Bundle().apply {
+                putInt("ARG_ANIME_ID", anime.id)
+                putParcelable("ARG_ANIME", anime)
+            }
+        }
 
-        requireActivity().supportFragmentManager.beginTransaction()
+        parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()

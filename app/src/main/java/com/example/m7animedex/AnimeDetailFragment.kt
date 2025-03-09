@@ -4,7 +4,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.m7animedex.R
 import com.example.m7animedex.data.AnimeAPI
@@ -14,13 +16,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 class AnimeDetailFragment : Fragment() {
 
     private var anime: Anime? = null
     private lateinit var animeApiService: AnimeService
-
-    // Variable para saber si el anime está en favoritos.
     private var isFavorite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,20 +27,16 @@ class AnimeDetailFragment : Fragment() {
         arguments?.let {
             anime = it.getParcelable("ARG_ANIME")
         }
-        animeApiService = AnimeAPI.getService() // Inicializa el servicio de la API aquí.
+        animeApiService = AnimeAPI.getService()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_anime_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Referencias a las vistas del layout.
         val animeMainPicture: ImageView = view.findViewById(R.id.anime_main_picture)
         val animeTitle: TextView = view.findViewById(R.id.anime_title)
         val animeSynopsisText: TextView = view.findViewById(R.id.anime_synopsis_text)
@@ -55,28 +50,15 @@ class AnimeDetailFragment : Fragment() {
         val animeStatus: TextView = view.findViewById(R.id.anime_status)
         val fabAddToFavorites: FloatingActionButton = view.findViewById(R.id.fab_add_to_favorites)
 
-        // Cargar los datos del anime en las vistas.
         anime?.let {
-            Glide.with(this)
-                .load(it.main_picture)
-                .into(animeMainPicture)
-
-            animeTitle.text = it.title
-            animeSynopsisText.text = it.synopsis ?: "Sinopsis no disponible"
-            animeGenres.text = it.genres.joinToString(", ") { genre -> genre.name }
-            animeStartDate.text = it.start_date ?: "Fecha no disponible"
-            animeEndDate.text = it.end_date ?: "Fecha no disponible"
-            animeMean.text = it.mean?.toString() ?: "N/A"
-            animeRank.text = it.rank?.toString() ?: "N/A"
-            animePopularity.text = it.popularity?.toString() ?: "N/A"
-            animeMediaType.text = it.media_type ?: "N/A"
-            animeStatus.text = it.status ?: "N/A"
-
-            // Comprobar si el anime ya está en favoritos y actualizar el ícono.
+            if (it.genres.isNullOrEmpty() || it.media_type.isNullOrEmpty()) {
+                loadFullAnimeDetails(it.id)
+            } else {
+                displayAnimeData(it)
+            }
             checkIfFavorite(it.id, fabAddToFavorites)
         }
 
-        // Listener para el botón flotante (añadir o eliminar de favoritos).
         fabAddToFavorites.setOnClickListener {
             anime?.let { selectedAnime ->
                 if (isFavorite) {
@@ -88,54 +70,96 @@ class AnimeDetailFragment : Fragment() {
         }
     }
 
+    private fun loadFullAnimeDetails(id: Int) {
+        lifecycleScope.launch {
+            try {
+                val response = animeApiService.getAnimeById(id)
+                if (response.isSuccessful) {
+                    response.body()?.let { fullAnime ->
+                        anime = fullAnime
+                        displayAnimeData(fullAnime)
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Error cargando detalles del Anime", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun displayAnimeData(anime: Anime) {
+        view?.let { view ->
+            Glide.with(this).load(anime.main_picture).into(view.findViewById(R.id.anime_main_picture))
+            view.findViewById<TextView>(R.id.anime_title).text = anime.title
+            view.findViewById<TextView>(R.id.anime_synopsis_text).text = anime.synopsis ?: "Sinopsis no disponible"
+            view.findViewById<TextView>(R.id.anime_genres).text = anime.genres?.joinToString(", ") { it.name } ?: "Géneros no disponibles"
+            view.findViewById<TextView>(R.id.anime_start_date).text = anime.start_date ?: "Fecha no disponible"
+            view.findViewById<TextView>(R.id.anime_end_date).text = anime.end_date ?: "Fecha no disponible"
+            view.findViewById<TextView>(R.id.anime_mean).text = anime.mean?.toString() ?: "N/A"
+            view.findViewById<TextView>(R.id.anime_rank).text = anime.rank?.toString() ?: "N/A"
+            view.findViewById<TextView>(R.id.anime_popularity).text = anime.popularity?.toString() ?: "N/A"
+            view.findViewById<TextView>(R.id.anime_media_type).text = anime.media_type ?: "N/A"
+            view.findViewById<TextView>(R.id.anime_status).text = anime.status ?: "N/A"
+        }
+    }
+
     private fun checkIfFavorite(idAnime: Int, fab: FloatingActionButton) {
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             try {
                 val response = animeApiService.getFavorites()
                 if (response.isSuccessful) {
                     val favorites = response.body() ?: emptyList()
                     isFavorite = favorites.any { it.idAnime == idAnime }
-                    updateFabIcon(fab) // Actualiza el ícono según el estado.
+                    updateFabIcon(fab)
+                } else {
+                    Toast.makeText(requireContext(), "Error al cargar favoritos", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                // Manejo de errores opcional.
+                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun addToFavorites(idAnime: Int, fab: FloatingActionButton) {
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             try {
                 val response = animeApiService.addFavorite(idAnime)
                 if (response.isSuccessful) {
                     isFavorite = true
-                    updateFabIcon(fab) // Cambia el ícono a "relleno".
+                    updateFabIcon(fab)
+                    Toast.makeText(requireContext(), "Añadido a favoritos", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Error al añadir a favoritos", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                // Manejo de errores opcional.
+                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun removeFromFavorites(idAnime: Int, fab: FloatingActionButton) {
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             try {
                 val response = animeApiService.removeFavorite(idAnime)
                 if (response.isSuccessful) {
                     isFavorite = false
-                    updateFabIcon(fab) // Cambia el ícono a "vacío".
+                    updateFabIcon(fab)
+                    Toast.makeText(requireContext(), "Eliminado de favoritos", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Error al eliminar de favoritos", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                // Manejo de errores opcional.
+                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun updateFabIcon(fab: FloatingActionButton) {
         if (isFavorite) {
-            fab.setImageResource(R.drawable.ic_favorite_filled) // Ícono relleno.
+            fab.setImageResource(R.drawable.ic_favorite_filled)
         } else {
-            fab.setImageResource(R.drawable.ic_favorite_border) // Ícono vacío.
+            fab.setImageResource(R.drawable.ic_favorite_border)
         }
     }
 }
