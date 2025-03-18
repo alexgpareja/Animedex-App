@@ -59,12 +59,18 @@ interface AnimeService {
         @Query("status") status: String = "Planned"
     ): Response<Void>
 
-    // Actualiza el estado de un anime favorito
-    @PUT("favorites/{id_anime}")
-    suspend fun updateFavoriteStatus(
-        @Path("id_anime") idAnime: Int,
-        @Query("status") newStatus: String
-    ): Response<Void>
+    // 🔹 Marca un anime como 'Planned' y limpia las fechas
+    @PUT("favorites/{id_anime}/planned")
+    suspend fun markAsPlanned(@Path("id_anime") idAnime: Int): Response<Void>
+
+    // 🔹 Marca un anime como 'Watching' y asigna date_added
+    @PUT("favorites/{id_anime}/watching")
+    suspend fun markAsWatching(@Path("id_anime") idAnime: Int): Response<Void>
+
+    // 🔹 Marca un anime como 'Completed' y maneja date_added y date_finished
+    @PUT("favorites/{id_anime}/completed")
+    suspend fun markAsCompleted(@Path("id_anime") idAnime: Int): Response<Void>
+
 
     // Elimina un anime de la lista de favoritos del usuario
     @DELETE("favorites/{id_anime}")
