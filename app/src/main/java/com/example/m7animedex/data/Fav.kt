@@ -11,7 +11,7 @@ data class Fav(
     val idUsuario: Int,
     @SerializedName("id_anime") val idAnime: Int,
     val status: String,
-    val dateAdded: LocalDateTime,
+    val dateAdded: LocalDateTime?,
     val dateFinished: LocalDateTime? = null,
     val main_picture: String?
 ) : Parcelable

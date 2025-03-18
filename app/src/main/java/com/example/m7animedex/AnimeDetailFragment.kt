@@ -2,7 +2,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -12,15 +14,23 @@ import com.example.m7animedex.R
 import com.example.m7animedex.data.AnimeAPI
 import com.example.m7animedex.data.api.AnimeService
 import com.example.m7animedex.data.model.Anime
+import com.example.m7animedex.data.model.Fav
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 class AnimeDetailFragment : Fragment() {
 
     private var anime: Anime? = null
     private lateinit var animeApiService: AnimeService
     private var isFavorite = false
+
+    // Nuevos elementos
+    private lateinit var statusLayout: View
+    private lateinit var statusSpinner: Spinner
+    private lateinit var startDateText: TextView
+    private lateinit var completedDateText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +60,12 @@ class AnimeDetailFragment : Fragment() {
         val animeStatus: TextView = view.findViewById(R.id.anime_status)
         val fabAddToFavorites: FloatingActionButton = view.findViewById(R.id.fab_add_to_favorites)
 
+        // Inicializar nuevos elementos
+        statusLayout = view.findViewById(R.id.status_layout)
+        statusSpinner = view.findViewById(R.id.anime_status_spinner)
+        startDateText = view.findViewById(R.id.anime_start_watching_date)
+        completedDateText = view.findViewById(R.id.anime_completed_date)
+
         anime?.let {
             if (it.genres.isNullOrEmpty() || it.media_type.isNullOrEmpty()) {
                 loadFullAnimeDetails(it.id)
@@ -67,6 +83,29 @@ class AnimeDetailFragment : Fragment() {
                     addToFavorites(selectedAnime.id, fabAddToFavorites)
                 }
             }
+        }
+
+        // Configurar el listener del Spinner
+        statusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedStatus = parent?.getItemAtPosition(position).toString()
+                anime?.let { selectedAnime ->
+                    lifecycleScope.launch {
+                        try {
+                            when (selectedStatus) {
+                                "Planned" -> animeApiService.markAsPlanned(selectedAnime.id)
+                                "Watching" -> animeApiService.markAsWatching(selectedAnime.id)
+                                "Completed" -> animeApiService.markAsCompleted(selectedAnime.id)
+                            }
+                            fetchFavoriteStatus(selectedAnime.id) // Refrescar el estado y las fechas
+                        } catch (e: Exception) {
+                            Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
@@ -112,11 +151,62 @@ class AnimeDetailFragment : Fragment() {
                     val favorites = response.body() ?: emptyList()
                     isFavorite = favorites.any { it.idAnime == idAnime }
                     updateFabIcon(fab)
+                    updateStatusVisibility()
+                    if (isFavorite) {
+                        fetchFavoriteStatus(idAnime)
+                    }
                 } else {
                     Toast.makeText(requireContext(), "Error al cargar favoritos", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun fetchFavoriteStatus(idAnime: Int) {
+        lifecycleScope.launch {
+            try {
+                val response = animeApiService.getFavorites()
+                if (response.isSuccessful) {
+                    val favorites = response.body() ?: emptyList()
+                    val fav = favorites.find { it.idAnime == idAnime }
+                    fav?.let {
+                        updateStatusFields(it.status, it.dateAdded, it.dateFinished)
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Error al cargar favoritos", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun updateStatusVisibility() {
+        if (isFavorite) {
+            statusLayout.visibility = View.VISIBLE
+        } else {
+            statusLayout.visibility = View.GONE
+        }
+    }
+
+    private fun updateStatusFields(status: String, dateAdded: LocalDateTime?, dateFinished: LocalDateTime?) {
+        // Formateador para convertir LocalDateTime a String con formato "yyyy-MM-dd"
+        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+        when (status) {
+            "Watching" -> {
+                startDateText.text = "Fecha inicio: ${dateAdded?.format(dateFormatter) ?: "-"}"
+                completedDateText.text = "Fecha fin: N/A"
+            }
+            "Completed" -> {
+                startDateText.text = "Fecha inicio: ${dateAdded?.format(dateFormatter) ?: "-"}"
+                completedDateText.text = "Fecha fin: ${dateFinished?.format(dateFormatter) ?: "-"}"
+            }
+            else -> {
+                startDateText.text = "Fecha inicio: -"
+                completedDateText.text = "Fecha fin: -"
             }
         }
     }
@@ -128,12 +218,16 @@ class AnimeDetailFragment : Fragment() {
                 if (response.isSuccessful) {
                     isFavorite = true
                     updateFabIcon(fab)
-                    Toast.makeText(requireContext(), "Añadido a favoritos", Toast.LENGTH_SHORT).show()
+
+                    // Refrescar el estado y mostrar los nuevos campos
+                    fetchFavoriteStatus(idAnime)
+
+                    //Toast.makeText(requireContext(), "Añadido a favoritos", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(requireContext(), "Error al añadir a favoritos", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(requireContext(), "Error al añadir a favoritos", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
     }
