@@ -85,10 +85,19 @@ class AnimeDetailFragment : Fragment() {
             }
         }
 
-        // Configurar el listener del Spinner
+        var isSpinnerInitialized = false
+
+// Configurar el listener del Spinner
         statusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (!isSpinnerInitialized) {
+                    // Ignorar la primera llamada (cuando el Spinner se inicializa)
+                    isSpinnerInitialized = true
+                    return
+                }
+
                 val selectedStatus = parent?.getItemAtPosition(position).toString()
+                println("🔍 Estado seleccionado: $selectedStatus") // Log para depuración
                 anime?.let { selectedAnime ->
                     lifecycleScope.launch {
                         try {
@@ -170,12 +179,25 @@ class AnimeDetailFragment : Fragment() {
                 val response = animeApiService.getFavorites()
                 if (response.isSuccessful) {
                     val favorites = response.body() ?: emptyList()
+                    println("🌟 Favoritos obtenidos: $favorites") // Log para depuración
                     val fav = favorites.find { it.idAnime == idAnime }
                     fav?.let {
+                        println("🔍 Anime encontrado: ${it.idAnime}, Estado: ${it.status}") // Log para depuración
+
+                        // Configurar el Spinner con el estado actual del anime
+                        val statusList = arrayOf("Planned", "Watching", "Watched")
+                        val position = statusList.indexOf(it.status)
+                        if (position != -1) {
+                            statusSpinner.setSelection(position)
+                        } else {
+                            println("⚠️ Estado desconocido: ${it.status}") // Log si el estado no coincide
+                        }
+
+                        // Actualizar los campos de fechas
                         updateStatusFields(it.status, it.dateAdded, it.dateFinished)
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Error al cargar favoritos", Toast.LENGTH_SHORT).show()
+                    println("❌ Error al cargar favoritos: ${response.code()}") // Log para depuración
                 }
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
@@ -194,17 +216,21 @@ class AnimeDetailFragment : Fragment() {
     private fun updateStatusFields(status: String, dateAdded: LocalDateTime?, dateFinished: LocalDateTime?) {
         // Formateador para convertir LocalDateTime a String con formato "yyyy-MM-dd"
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-
         when (status) {
             "Watching" -> {
                 startDateText.text = "Fecha inicio: ${dateAdded?.format(dateFormatter) ?: "-"}"
                 completedDateText.text = "Fecha fin: N/A"
             }
-            "Completed" -> {
+            "Watched" -> {
                 startDateText.text = "Fecha inicio: ${dateAdded?.format(dateFormatter) ?: "-"}"
                 completedDateText.text = "Fecha fin: ${dateFinished?.format(dateFormatter) ?: "-"}"
             }
+            "Planned" -> {
+                startDateText.text = "Fecha inicio: -"
+                completedDateText.text = "Fecha fin: -"
+            }
             else -> {
+                println("⚠️ Estado desconocido: $status") // Log si el estado no coincide
                 startDateText.text = "Fecha inicio: -"
                 completedDateText.text = "Fecha fin: -"
             }
