@@ -95,7 +95,7 @@ class AnimeDetailFragment : Fragment() {
                             when (selectedStatus) {
                                 "Planned" -> animeApiService.markAsPlanned(selectedAnime.id)
                                 "Watching" -> animeApiService.markAsWatching(selectedAnime.id)
-                                "Completed" -> animeApiService.markAsCompleted(selectedAnime.id)
+                                "Watched" -> animeApiService.markAsCompleted(selectedAnime.id)
                             }
                             fetchFavoriteStatus(selectedAnime.id) // Refrescar el estado y las fechas
                         } catch (e: Exception) {
