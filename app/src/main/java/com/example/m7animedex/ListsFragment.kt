@@ -70,7 +70,7 @@ class ListsFragment : Fragment() {
             loadFilteredData()
         }
         buttonWatched.setOnClickListener {
-            currentStatus = "Completed"
+            currentStatus = "Watched"
             loadFilteredData()
         }
 
@@ -153,7 +153,7 @@ class ListsFragment : Fragment() {
                 val response = when (status) {
                     "Planned" -> animeService.getPlannedFavorites()
                     "Watching" -> animeService.getWatchingFavorites()
-                    "Completed" -> animeService.getCompletedFavorites()
+                    "Watched" -> animeService.getCompletedFavorites() // Cambiado a Watched
                     else -> null
                 }
 

@@ -13,11 +13,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.m7animedex.data.AnimeAPI
-import com.example.m7animedex.data.api.AnimeService
 import com.example.m7animedex.data.model.Anime
 import com.example.m7animedex.data.model.Fav
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class SearchFragment : Fragment() {
 
@@ -43,6 +41,9 @@ class SearchFragment : Fragment() {
             openAnimeDetailFragment(anime)
         }
         recyclerView.adapter = adapter
+
+        // Cargar animes aleatorios al iniciar el fragmento
+        loadAllAnimes()
 
         // Configurar el listener para el buscador
         searchBox.setOnEditorActionListener { _, actionId, _ ->
