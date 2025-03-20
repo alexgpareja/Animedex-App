@@ -2,6 +2,6 @@
     <string-array name="anime_status_options">
         <item>Planned</item>
         <item>Watching</item>
-        <item>Completed</item>
+        <item>Watched</item>
     </string-array>
 </resources>
