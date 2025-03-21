@@ -27,4 +27,5 @@
     <string name="synopsis_label">Synopsis:</string>
     <string name="anime_image_description">Main picture of the anime</string>
     <string name="add_to_favorites">Add to Favorites</string>
+    <string name="episodes_label">Episodes:</string>
 </resources>
