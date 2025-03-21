@@ -23,6 +23,7 @@ class SearchFragment : Fragment() {
     private lateinit var adapter: FavAnimeAdapter
     private lateinit var searchBox: EditText
     private val animeList: MutableList<Anime> = mutableListOf()
+    private val favList: MutableList<Fav> = mutableListOf() // Ahora `favList` se cargará desde la API
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,22 +31,18 @@ class SearchFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_search, container, false)
 
-        // Inicializar vistas
         searchBox = view.findViewById(R.id.searchBox)
         recyclerView = view.findViewById(R.id.recyclerViewAnimes)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Configurar el adaptador
-        adapter = FavAnimeAdapter(animeList, animeList, mutableListOf<Fav>()) { anime ->
-            // Acción al hacer clic en un anime: abrir el detalle del anime
+        adapter = FavAnimeAdapter(animeList, animeList, favList) { anime ->
             openAnimeDetailFragment(anime)
         }
         recyclerView.adapter = adapter
 
-        // Cargar animes aleatorios al iniciar el fragmento
+        loadFavorites()  // Cargar favoritos y su estado (status)
         loadAllAnimes()
 
-        // Configurar el listener para el buscador
         searchBox.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.ACTION_DOWN) {
                 val query = searchBox.text.toString().trim()
@@ -63,26 +60,30 @@ class SearchFragment : Fragment() {
         return view
     }
 
-    /**
-     * Busca animes por título utilizando el endpoint /anime/search.
-     */
+    // Método para cargar la lista de favoritos con su `status`
+    private fun loadFavorites() {
+        lifecycleScope.launch {
+            try {
+                val response = AnimeAPI.getService().getFavorites()  // Supuesta llamada a la API
+                if (response.isSuccessful && response.body() != null) {
+                    favList.clear()
+                    favList.addAll(response.body()!!)
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error al cargar favoritos", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun searchAnimes(query: String) {
         lifecycleScope.launch {
             try {
                 val response = AnimeAPI.getService().searchAnimes(query)
                 if (response.isSuccessful && response.body() != null) {
                     val animes = response.body()!!
-
-                    // Limpiar la lista actual
                     animeList.clear()
-
-                    // Agregar los resultados a la lista
                     animeList.addAll(animes)
-
-                    // Actualizar el adaptador
-                    adapter.updateList(animes, mutableListOf<Fav>())
-                } else {
-                    Toast.makeText(requireContext(), "Error al buscar animes", Toast.LENGTH_SHORT).show()
+                    adapter.updateList(animes, favList)
                 }
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
@@ -90,24 +91,15 @@ class SearchFragment : Fragment() {
         }
     }
 
-    /**
-     * Carga todos los animes disponibles utilizando el endpoint /anime/all.
-     */
     private fun loadAllAnimes() {
         lifecycleScope.launch {
             try {
                 val response = AnimeAPI.getService().getRandomAnimes()
                 if (response.isSuccessful && response.body() != null) {
                     val animes = response.body()!!
-
-                    // Limpiar la lista actual
                     animeList.clear()
-
-                    // Agregar los resultados a la lista
                     animeList.addAll(animes)
-
-                    // Actualizar el adaptador
-                    adapter.updateList(animes, mutableListOf<Fav>())
+                    adapter.updateList(animes, favList)
                 } else {
                     Toast.makeText(requireContext(), "Error al cargar animes", Toast.LENGTH_SHORT).show()
                 }
@@ -117,9 +109,6 @@ class SearchFragment : Fragment() {
         }
     }
 
-    /**
-     * Abre el fragmento de detalles del anime seleccionado.
-     */
     private fun openAnimeDetailFragment(anime: Anime) {
         val fragment = AnimeDetailFragment().apply {
             arguments = Bundle().apply {
