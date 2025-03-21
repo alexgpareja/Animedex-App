@@ -55,8 +55,13 @@ class FavAnimeAdapter(
             titulo.text = anime.title
             episodios.text = "${anime.num_episodes} episodios"
 
-            val favStatus = favList.find { it.idAnime == anime.id }?.status ?: "No Favorito"
-            estado.text = favStatus
+            val favorite = favList.find { it.idAnime == anime.id }
+
+            if (favorite != null) {
+                estado.text = "Favorito" // Mostrar si es favorito
+            } else {
+                estado.text = "No Favorito" // Mostrar si no es favorito
+            }
 
             Glide.with(itemView.context)
                 .load(anime.main_picture)

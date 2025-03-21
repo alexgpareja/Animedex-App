@@ -172,6 +172,16 @@ class AnimeDetailFragment : Fragment() {
             }
         }
     }
+    private fun convertStringToLocalDateTime(dateString: String?): LocalDateTime? {
+        return try {
+            dateString?.let {
+                LocalDateTime.parse(it, DateTimeFormatter.ISO_DATE_TIME)
+            }
+        } catch (e: Exception) {
+            null  // Retorna null si hay un problema con el formato
+        }
+    }
+
 
     private fun fetchFavoriteStatus(idAnime: Int) {
         lifecycleScope.launch {
@@ -179,25 +189,30 @@ class AnimeDetailFragment : Fragment() {
                 val response = animeApiService.getFavorites()
                 if (response.isSuccessful) {
                     val favorites = response.body() ?: emptyList()
-                    println("🌟 Favoritos obtenidos: $favorites") // Log para depuración
+                    println("🌟 Favoritos obtenidos: $favorites")  // Log para depuración
+
                     val fav = favorites.find { it.idAnime == idAnime }
                     fav?.let {
-                        println("🔍 Anime encontrado: ${it.idAnime}, Estado: ${it.status}") // Log para depuración
+                        println("🔍 Anime encontrado: ${it.idAnime}, Estado: ${it.status}")  // Log para depuración
 
-                        // Configurar el Spinner con el estado actual del anime
+                        // Convertir las fechas de String a LocalDateTime
+                        val dateAdded = convertStringToLocalDateTime(it.dateAdded)
+                        val dateFinished = convertStringToLocalDateTime(it.dateFinished)
+
+                        // Actualizar Spinner y campos de fecha
                         val statusList = arrayOf("Planned", "Watching", "Watched")
                         val position = statusList.indexOf(it.status)
                         if (position != -1) {
                             statusSpinner.setSelection(position)
                         } else {
-                            println("⚠️ Estado desconocido: ${it.status}") // Log si el estado no coincide
+                            println("⚠️ Estado desconocido: ${it.status}")  // Log si el estado no coincide
                         }
 
-                        // Actualizar los campos de fechas
-                        updateStatusFields(it.status, it.dateAdded, it.dateFinished)
+                        // Actualizar las fechas en los TextView
+                        updateStatusFields(it.status, dateAdded, dateFinished)
                     }
                 } else {
-                    println("❌ Error al cargar favoritos: ${response.code()}") // Log para depuración
+                    println("❌ Error al cargar favoritos: ${response.code()}")  // Log para depuración
                 }
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
@@ -214,12 +229,11 @@ class AnimeDetailFragment : Fragment() {
     }
 
     private fun updateStatusFields(status: String, dateAdded: LocalDateTime?, dateFinished: LocalDateTime?) {
-        // Formateador para convertir LocalDateTime a String con formato "yyyy-MM-dd"
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         when (status) {
             "Watching" -> {
                 startDateText.text = "Fecha inicio: ${dateAdded?.format(dateFormatter) ?: "-"}"
-                completedDateText.text = "Fecha fin: N/A"
+                completedDateText.text = "Fecha fin: -"
             }
             "Watched" -> {
                 startDateText.text = "Fecha inicio: ${dateAdded?.format(dateFormatter) ?: "-"}"
@@ -230,12 +244,13 @@ class AnimeDetailFragment : Fragment() {
                 completedDateText.text = "Fecha fin: -"
             }
             else -> {
-                println("⚠️ Estado desconocido: $status") // Log si el estado no coincide
+                println("⚠️ Estado desconocido: $status")
                 startDateText.text = "Fecha inicio: -"
                 completedDateText.text = "Fecha fin: -"
             }
         }
     }
+
 
     private fun addToFavorites(idAnime: Int, fab: FloatingActionButton) {
         lifecycleScope.launch {
