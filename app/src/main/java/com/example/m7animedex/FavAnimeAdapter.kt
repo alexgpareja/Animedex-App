@@ -49,14 +49,13 @@ class FavAnimeAdapter(
 
         private val titulo: TextView = itemView.findViewById(R.id.animeNombre)
         private val episodios: TextView = itemView.findViewById(R.id.animeEpisodios)
-        private val tstatus: TextView = itemView.findViewById(R.id.animeEstado) // Ahora representa el estado como "tstatus"
+        private val tstatus: TextView = itemView.findViewById(R.id.animeEstado)
         private val imagen: ImageView = itemView.findViewById(R.id.animeImagen)
 
         fun bind(anime: Anime, favList: List<Fav>) {
             titulo.text = anime.title
             episodios.text = "${anime.num_episodes} episodios"
 
-            // Buscar si el anime está en favoritos y mostrar su status
             val favorite = favList.find { it.idAnime == anime.id }
             tstatus.text = when (favorite?.status) {
                 "Planned" -> "Planned"

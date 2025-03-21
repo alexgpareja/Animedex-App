@@ -14,7 +14,6 @@ import com.example.m7animedex.R
 import com.example.m7animedex.data.AnimeAPI
 import com.example.m7animedex.data.api.AnimeService
 import com.example.m7animedex.data.model.Anime
-import com.example.m7animedex.data.model.Fav
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -178,7 +177,7 @@ class AnimeDetailFragment : Fragment() {
                 LocalDateTime.parse(it, DateTimeFormatter.ISO_DATE_TIME)
             }
         } catch (e: Exception) {
-            null  // Retorna null si hay un problema con el formato
+            null
         }
     }
 
@@ -189,11 +188,11 @@ class AnimeDetailFragment : Fragment() {
                 val response = animeApiService.getFavorites()
                 if (response.isSuccessful) {
                     val favorites = response.body() ?: emptyList()
-                    println("🌟 Favoritos obtenidos: $favorites")  // Log para depuración
+                    println("🌟 Favoritos obtenidos: $favorites")
 
                     val fav = favorites.find { it.idAnime == idAnime }
                     fav?.let {
-                        println("🔍 Anime encontrado: ${it.idAnime}, Estado: ${it.status}")  // Log para depuración
+                        println("🔍 Anime encontrado: ${it.idAnime}, Estado: ${it.status}")
 
                         // Convertir las fechas de String a LocalDateTime
                         val dateAdded = convertStringToLocalDateTime(it.dateAdded)
@@ -205,14 +204,13 @@ class AnimeDetailFragment : Fragment() {
                         if (position != -1) {
                             statusSpinner.setSelection(position)
                         } else {
-                            println("⚠️ Estado desconocido: ${it.status}")  // Log si el estado no coincide
+                            println("Estado desconocido: ${it.status}")
                         }
 
-                        // Actualizar las fechas en los TextView
                         updateStatusFields(it.status, dateAdded, dateFinished)
                     }
                 } else {
-                    println("❌ Error al cargar favoritos: ${response.code()}")  // Log para depuración
+                    println("Error al cargar favoritos: ${response.code()}")
                 }
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
@@ -265,10 +263,10 @@ class AnimeDetailFragment : Fragment() {
 
                     //Toast.makeText(requireContext(), "Añadido a favoritos", Toast.LENGTH_SHORT).show()
                 } else {
-                    //Toast.makeText(requireContext(), "Error al añadir a favoritos", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Error al añadir a favoritos", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                //Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
     }
