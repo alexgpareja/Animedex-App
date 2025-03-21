@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.m7animedex.data.model.Anime
 import com.example.m7animedex.data.model.Fav
+
 class FavAnimeAdapter(
     private var animeList: MutableList<Anime> = mutableListOf(),
     private val fullAnimeList: MutableList<Anime> = mutableListOf(),
@@ -48,19 +49,20 @@ class FavAnimeAdapter(
 
         private val titulo: TextView = itemView.findViewById(R.id.animeNombre)
         private val episodios: TextView = itemView.findViewById(R.id.animeEpisodios)
-        private val estado: TextView = itemView.findViewById(R.id.animeEstado)
+        private val tstatus: TextView = itemView.findViewById(R.id.animeEstado) // Ahora representa el estado como "tstatus"
         private val imagen: ImageView = itemView.findViewById(R.id.animeImagen)
 
         fun bind(anime: Anime, favList: List<Fav>) {
             titulo.text = anime.title
             episodios.text = "${anime.num_episodes} episodios"
 
+            // Buscar si el anime está en favoritos y mostrar su status
             val favorite = favList.find { it.idAnime == anime.id }
-
-            if (favorite != null) {
-                estado.text = "Favorito" // Mostrar si es favorito
-            } else {
-                estado.text = "No Favorito" // Mostrar si no es favorito
+            tstatus.text = when (favorite?.status) {
+                "Planned" -> "Planned"
+                "Watching" -> "Watching"
+                "Watched" -> "Watched"
+                else -> "No Favorito"
             }
 
             Glide.with(itemView.context)
