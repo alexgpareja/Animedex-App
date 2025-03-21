@@ -50,6 +50,7 @@ class AnimeDetailFragment : Fragment() {
         val animeTitle: TextView = view.findViewById(R.id.anime_title)
         val animeSynopsisText: TextView = view.findViewById(R.id.anime_synopsis_text)
         val animeGenres: TextView = view.findViewById(R.id.anime_genres)
+        val animeEpisodes: TextView = view.findViewById(R.id.anime_episodes)
         val animeStartDate: TextView = view.findViewById(R.id.anime_start_date)
         val animeEndDate: TextView = view.findViewById(R.id.anime_end_date)
         val animeMean: TextView = view.findViewById(R.id.anime_mean)
@@ -107,7 +108,7 @@ class AnimeDetailFragment : Fragment() {
                             }
                             fetchFavoriteStatus(selectedAnime.id) // Refrescar el estado y las fechas
                         } catch (e: Exception) {
-                            Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -127,10 +128,10 @@ class AnimeDetailFragment : Fragment() {
                         displayAnimeData(fullAnime)
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Error cargando detalles del Anime", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(requireContext(), "Error cargando detalles del Anime", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -141,6 +142,16 @@ class AnimeDetailFragment : Fragment() {
             view.findViewById<TextView>(R.id.anime_title).text = anime.title
             view.findViewById<TextView>(R.id.anime_synopsis_text).text = anime.synopsis ?: "Sinopsis no disponible"
             view.findViewById<TextView>(R.id.anime_genres).text = anime.genres?.joinToString(", ") { it.name } ?: "Géneros no disponibles"
+
+            // Mostrar el número de episodios
+            val episodesText = if (anime.num_episodes != null && anime.num_episodes > 0) {
+                "${anime.num_episodes}"
+            } else {
+                "??"
+            }
+            view.findViewById<TextView>(R.id.anime_episodes).text = episodesText
+
+
             view.findViewById<TextView>(R.id.anime_start_date).text = anime.start_date ?: "Fecha no disponible"
             view.findViewById<TextView>(R.id.anime_end_date).text = anime.end_date ?: "Fecha no disponible"
             view.findViewById<TextView>(R.id.anime_mean).text = anime.mean?.toString() ?: "N/A"
@@ -188,11 +199,11 @@ class AnimeDetailFragment : Fragment() {
                 val response = animeApiService.getFavorites()
                 if (response.isSuccessful) {
                     val favorites = response.body() ?: emptyList()
-                    println("🌟 Favoritos obtenidos: $favorites")
+                    //println("🌟 Favoritos obtenidos: $favorites")  // Log para depuración
 
                     val fav = favorites.find { it.idAnime == idAnime }
                     fav?.let {
-                        println("🔍 Anime encontrado: ${it.idAnime}, Estado: ${it.status}")
+                        println("🔍 Anime encontrado: ${it.idAnime}, Estado: ${it.status}")  // Log para depuración
 
                         // Convertir las fechas de String a LocalDateTime
                         val dateAdded = convertStringToLocalDateTime(it.dateAdded)
@@ -204,16 +215,17 @@ class AnimeDetailFragment : Fragment() {
                         if (position != -1) {
                             statusSpinner.setSelection(position)
                         } else {
-                            println("Estado desconocido: ${it.status}")
+                            //println("⚠️ Estado desconocido: ${it.status}")  // Log si el estado no coincide
                         }
 
+                        // Actualizar las fechas en los TextView
                         updateStatusFields(it.status, dateAdded, dateFinished)
                     }
                 } else {
-                    println("Error al cargar favoritos: ${response.code()}")
+                    //println("❌ Error al cargar favoritos: ${response.code()}")  // Log para depuración
                 }
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -263,10 +275,10 @@ class AnimeDetailFragment : Fragment() {
 
                     //Toast.makeText(requireContext(), "Añadido a favoritos", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(requireContext(), "Error al añadir a favoritos", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(requireContext(), "Error al añadir a favoritos", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         }
     }

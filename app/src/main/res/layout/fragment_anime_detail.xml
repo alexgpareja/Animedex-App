@@ -107,6 +107,30 @@
 
             </LinearLayout>
 
+            <!-- Numero de episodios -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/episodes_label"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/anime_episodes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
             <!-- Estado del Anime (solo visible si está en favoritos) -->
             <LinearLayout
                 android:id="@+id/status_layout"
@@ -138,7 +162,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="Fecha inicio: -"
+                        android:text="Started Watching:"
                         android:textSize="14sp"
                         android:textColor="@android:color/darker_gray" />
 
@@ -148,7 +172,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="Fecha fin: -"
+                        android:text="Ended Watching: "
                         android:textSize="14sp"
                         android:textColor="@android:color/darker_gray"
                         android:gravity="end" />
@@ -350,6 +374,13 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <!-- Espacio vacío para el botón flotante -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="@android:color/transparent" />
+
 
         </LinearLayout>
 
