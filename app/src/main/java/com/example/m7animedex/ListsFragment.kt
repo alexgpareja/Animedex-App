@@ -10,13 +10,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.m7animedex.data.AnimeAPI
 import com.example.m7animedex.data.api.AnimeService
 import com.example.m7animedex.data.model.Anime
 import com.example.m7animedex.data.model.Fav
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -120,7 +120,7 @@ class ListsFragment : Fragment() {
      * Busca favoritos por título y estado utilizando el endpoint /favorites/search.
      */
     private fun searchFavorites(query: String, status: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch {
             try {
                 val response = animeService.searchFavorites(query)
                 if (response.isSuccessful) {
@@ -148,7 +148,7 @@ class ListsFragment : Fragment() {
      * Carga los favoritos según el estado seleccionado (Planned, Watching, Completed).
      */
     private fun loadFavoritesByStatus(status: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch {
             try {
                 val response = when (status) {
                     "Planned" -> animeService.getPlannedFavorites()
@@ -187,14 +187,14 @@ class ListsFragment : Fragment() {
                 val response = animeService.getAnimeById(fav.idAnime)
                 if (response.isSuccessful) {
                     response.body()?.let {
-                        println("✅ Anime recibido: ${it.title}")
+                        println("Anime recibido: ${it.title}")
                         animeList.add(it)
                     }
                 } else {
-                    println("⚠️ Error en getAnimeById(${fav.idAnime}): ${response.errorBody()?.string()}")
+                    println("Error en getAnimeById(${fav.idAnime}): ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
-                println("❌ Error en getAnimeById(${fav.idAnime}): ${e.message}")
+                println("Error en getAnimeById(${fav.idAnime}): ${e.message}")
             }
         }
         return animeList
