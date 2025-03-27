@@ -8,10 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.m7animedex.data.model.Anime
-
 class AnimeAdapter(
     private var animeList: MutableList<Anime>,
-    private val onItemClick: (Anime) -> Unit
+    private val onAnimeClickListener: OnAnimeClickListener // Usamos la interfaz aquí
 ) : RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
 
     class AnimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -43,7 +42,7 @@ class AnimeAdapter(
             .into(holder.animeImagenHome)
 
         holder.itemView.setOnClickListener {
-            onItemClick(anime)
+            onAnimeClickListener.onAnimeClick(anime) // Notificar el evento a través de la interfaz
         }
     }
 

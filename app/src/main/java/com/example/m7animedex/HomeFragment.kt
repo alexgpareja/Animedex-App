@@ -14,12 +14,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.m7animedex.data.AnimeAPI
 import com.example.m7animedex.data.api.AnimeService
 import com.example.m7animedex.data.model.Anime
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 class HomeFragment : Fragment() {
+
+    // Vistes i components del layout
     private lateinit var topAiringRecyclerView: RecyclerView
     private lateinit var mostPopularRecyclerView: RecyclerView
     private lateinit var topAiringAdapter: AnimeAdapter
     private lateinit var mostPopularAdapter: AnimeAdapter
+
+    // Servei per accedir a l'API d'Anime
     private lateinit var animeApiService: AnimeService
 
     override fun onCreateView(
@@ -32,31 +39,39 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Inicialitzar vistes
         topAiringRecyclerView = view.findViewById(R.id.topAiringGrid)
         mostPopularRecyclerView = view.findViewById(R.id.mostPopularGrid)
 
+        // Configurar els RecyclerViews amb un layout horitzontal
         topAiringRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         mostPopularRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        // Define la función onItemClick aquí
+        // Definir la funció onItemClick per obrir el detall de l'anime
         val onItemClick: (Anime) -> Unit = { anime ->
             openAnimeDetailFragment(anime)
         }
 
+        // Inicialitzar els adapters
         topAiringAdapter = AnimeAdapter(mutableListOf(), onItemClick)
         mostPopularAdapter = AnimeAdapter(mutableListOf(), onItemClick)
 
         topAiringRecyclerView.adapter = topAiringAdapter
         mostPopularRecyclerView.adapter = mostPopularAdapter
 
+        // Inicialitzar el servei de l'API
         animeApiService = AnimeAPI.getService()
 
+        // Carregar les dades
         fetchTopAiringAnimes()
         fetchMostPopularAnimes()
     }
 
+    /**
+     * Obre el fragment de detalls de l'anime seleccionat.
+     */
     private fun openAnimeDetailFragment(anime: Anime) {
         val fragment = AnimeDetailFragment()
         val args = Bundle()
@@ -69,52 +84,80 @@ class HomeFragment : Fragment() {
             .commit()
     }
 
+    /**
+     * Obté els animes en emisió utilitzant Retrofit amb coroutines.
+     */
     private fun fetchTopAiringAnimes() {
         lifecycleScope.launch {
             try {
-                val response = animeApiService.getAiringAnime()
+                // Realitzar la petició a la xarxa en el fil IO
+                val response = withContext(Dispatchers.IO) {
+                    animeApiService.getAiringAnime()
+                }
+
+                // Actualitzar la UI en el fil principal
                 if (response.isSuccessful) {
                     val animes = response.body() ?: emptyList()
-                    topAiringAdapter.updateList(animes)
+                    withContext(Dispatchers.Main) {
+                        topAiringAdapter.updateList(animes)
+                    }
                 } else {
                     Log.e(
                         "HomeFragment",
-                        "Error al obtener animes en emisión: ${response.errorBody()?.string()}"
+                        "Error al obtenir animes en emisió: ${response.errorBody()?.string()}"
                     )
-                    Toast.makeText(
-                        requireContext(),
-                        "Error al obtener animes en emisión",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error al obtenir animes en emisió",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             } catch (e: Exception) {
-                Log.e("HomeFragment", "Error en la petición: ${e.message}")
-                Toast.makeText(requireContext(), "Error en la red", Toast.LENGTH_SHORT).show()
+                Log.e("HomeFragment", "Error en la petició: ${e.message}")
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Error en la xarxa", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
+    /**
+     * Obté els animes més populars utilitzant Retrofit amb coroutines.
+     */
     private fun fetchMostPopularAnimes() {
         lifecycleScope.launch {
             try {
-                val response = animeApiService.getPopularAnime()
+                // Realitzar la petició a la xarxa en el fil IO
+                val response = withContext(Dispatchers.IO) {
+                    animeApiService.getPopularAnime()
+                }
+
+                // Actualitzar la UI en el fil principal
                 if (response.isSuccessful) {
                     val mostPopularAnimes = response.body() ?: emptyList()
-                    mostPopularAdapter.updateList(mostPopularAnimes)
+                    withContext(Dispatchers.Main) {
+                        mostPopularAdapter.updateList(mostPopularAnimes)
+                    }
                 } else {
                     Log.e(
                         "HomeFragment",
-                        "Error al obtener animes populares: ${response.errorBody()?.string()}"
+                        "Error al obtenir animes populars: ${response.errorBody()?.string()}"
                     )
-                    Toast.makeText(
-                        requireContext(),
-                        "Error al obtener animes populares",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error al obtenir animes populars",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             } catch (e: Exception) {
-                Log.e("HomeFragment", "Error en la petición: ${e.message}")
-                Toast.makeText(requireContext(), "Error en la red", Toast.LENGTH_SHORT).show()
+                Log.e("HomeFragment", "Error en la petició: ${e.message}")
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Error en la xarxa", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

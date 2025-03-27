@@ -14,7 +14,7 @@ class FavAnimeAdapter(
     private var animeList: MutableList<Anime> = mutableListOf(),
     private val fullAnimeList: MutableList<Anime> = mutableListOf(),
     private var favList: MutableList<Fav> = mutableListOf(),
-    private val onAnimeClickListener: (Anime) -> Unit
+    private val onAnimeClickListener: OnAnimeClickListener // Usamos la interfaz aquí
 ) : RecyclerView.Adapter<FavAnimeAdapter.FavAnimeHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavAnimeHolder {
@@ -44,7 +44,7 @@ class FavAnimeAdapter(
         notifyDataSetChanged()
     }
 
-    class FavAnimeHolder(itemView: View, private val onAnimeClickListener: (Anime) -> Unit) :
+    class FavAnimeHolder(itemView: View, private val onAnimeClickListener: OnAnimeClickListener) :
         RecyclerView.ViewHolder(itemView) {
 
         private val titulo: TextView = itemView.findViewById(R.id.animeNombre)
@@ -69,7 +69,7 @@ class FavAnimeAdapter(
                 .into(imagen)
 
             itemView.setOnClickListener {
-                onAnimeClickListener(anime)
+                onAnimeClickListener.onAnimeClick(anime) // Notificar el evento a través de la interfaz
             }
         }
     }

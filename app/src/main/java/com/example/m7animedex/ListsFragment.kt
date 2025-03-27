@@ -24,43 +24,50 @@ import retrofit2.Response
 
 class ListsFragment : Fragment() {
 
+    // Vistes i components del layout
     private lateinit var searchEditText: EditText
     private lateinit var buttonPlanned: Button
     private lateinit var buttonWatching: Button
     private lateinit var buttonWatched: Button
     private lateinit var recyclerView: RecyclerView
     private lateinit var favAnimeAdapter: FavAnimeAdapter
+
+    // Servei per accedir a l'API d'Anime
     private val animeService: AnimeService = AnimeAPI.getService()
 
-    // 🔹 Variables para rastrear el estado actual y la consulta de búsqueda
+    // Variables per rastrejar l'estat actual i la consulta de cerca
     private var currentStatus: String = "Planned"
     private var currentQuery: String = ""
 
+    /**
+     * Infla el layout del fragment i inicialitza les vistes i funcionalitats.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_lists, container, false)
 
-        // Inicializar vistas
+        // Inicialitzar les vistes
         searchEditText = view.findViewById(R.id.searchBox)
         buttonPlanned = view.findViewById(R.id.buttonPlanned)
         buttonWatching = view.findViewById(R.id.buttonWatching)
         buttonWatched = view.findViewById(R.id.buttonWatched)
         recyclerView = view.findViewById(R.id.recyclerViewLists)
 
-        // Configurar el RecyclerView
+        // Configurar el RecyclerView amb un adaptador personalitzat
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         favAnimeAdapter = FavAnimeAdapter(mutableListOf()) { anime ->
-            // Acción al hacer clic en un anime: abrir el detalle del anime
+
+            // Acció al fer clic en un anime: obrir el detall de l'anime
             openAnimeDetailFragment(anime)
         }
         recyclerView.adapter = favAnimeAdapter
 
-        // Cargar datos iniciales
+        // Carregar dades inicials
         loadFilteredData()
 
-        // Configurar los botones de filtro
+        // Configura els botons de filtre (Planned, Watching, Watched).
         buttonPlanned.setOnClickListener {
             currentStatus = "Planned"
             loadFilteredData()
@@ -81,18 +88,18 @@ class ListsFragment : Fragment() {
     }
 
     /**
-     * Configura el buscador para buscar favoritos por título.
+     * Configura el camp de cerca per cercar animes favorits per títol.
      */
     private fun setupSearchBox() {
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.ACTION_DOWN) {
                 val query = searchEditText.text.toString().trim()
                 if (query.isNotEmpty()) {
-                    // Si hay una consulta, actualizar la variable y cargar datos filtrados
+                    // Si hi ha una consulta, actualitzar la variable i carregar dades filtrades
                     currentQuery = query
                     loadFilteredData()
                 } else {
-                    // Si el campo está vacío, limpiar la consulta y cargar todos los favoritos
+                    // Si el camp està buit, netejar la consulta i carregar tots els favorits
                     currentQuery = ""
                     loadFilteredData()
                 }
@@ -104,20 +111,20 @@ class ListsFragment : Fragment() {
     }
 
     /**
-     * Carga los datos filtrados según el estado actual y la consulta de búsqueda.
+     * Carrega les dades filtrades segons l'estat actual i la consulta de cerca.
      */
     private fun loadFilteredData() {
         if (currentQuery.isNotEmpty()) {
-            // Si hay una consulta, buscar favoritos por título y estado
+            // Si hi ha una consulta, cercar favorits per títol i estat
             searchFavorites(currentQuery, currentStatus)
         } else {
-            // Si no hay consulta, cargar todos los favoritos del estado actual
+            // Si no hi ha consulta, carregar tots els favorits de l'estat actual
             loadFavoritesByStatus(currentStatus)
         }
     }
 
     /**
-     * Busca favoritos por título y estado utilizando el endpoint /favorites/search.
+     * Cerca favorits per títol i estat utilitzant l'endpoint /favorites/search.
      */
     private fun searchFavorites(query: String, status: String) {
         lifecycleScope.launch {
@@ -125,7 +132,7 @@ class ListsFragment : Fragment() {
                 val response = animeService.searchFavorites(query)
                 if (response.isSuccessful) {
                     val favorites = response.body() ?: emptyList()
-                    // Filtrar los favoritos por estado
+                    // Filtrar els favorits per estat
                     val filteredFavorites = favorites.filter { it.status.equals(status, ignoreCase = true) }
                     val animeList = getAnimeDetails(filteredFavorites)
                     withContext(Dispatchers.Main) {
