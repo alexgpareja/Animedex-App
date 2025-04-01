@@ -17,7 +17,7 @@ import com.example.m7animedex.data.model.Anime
 import com.example.m7animedex.data.model.Fav
 import kotlinx.coroutines.launch
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), OnAnimeClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: FavAnimeAdapter
@@ -35,9 +35,11 @@ class SearchFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerViewAnimes)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter = FavAnimeAdapter(animeList, animeList, favList) { anime ->
-            openAnimeDetailFragment(anime)
-        }
+        adapter = FavAnimeAdapter(
+            animeList, // Lista de Anime
+            favList,   // Lista de Favoritos
+            this       // Instancia de OnAnimeClickListener (el fragmento)
+        )
         recyclerView.adapter = adapter
 
         loadFavorites()  // Cargar favoritos y su estado (status)
@@ -121,5 +123,9 @@ class SearchFragment : Fragment() {
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onAnimeClick(anime: Anime) {
+        openAnimeDetailFragment(anime)
     }
 }

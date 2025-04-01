@@ -12,7 +12,6 @@ import com.example.m7animedex.data.model.Fav
 
 class FavAnimeAdapter(
     private var animeList: MutableList<Anime> = mutableListOf(),
-    private val fullAnimeList: MutableList<Anime> = mutableListOf(),
     private var favList: MutableList<Fav> = mutableListOf(),
     private val onAnimeClickListener: OnAnimeClickListener // Usamos la interfaz aquí
 ) : RecyclerView.Adapter<FavAnimeAdapter.FavAnimeHolder>() {
@@ -35,14 +34,6 @@ class FavAnimeAdapter(
         notifyDataSetChanged()
     }
 
-    fun filterList(query: String) {
-        animeList = if (query.isEmpty()) {
-            fullAnimeList.toMutableList()
-        } else {
-            fullAnimeList.filter { it.title.contains(query, ignoreCase = true) }.toMutableList()
-        }
-        notifyDataSetChanged()
-    }
 
     class FavAnimeHolder(itemView: View, private val onAnimeClickListener: OnAnimeClickListener) :
         RecyclerView.ViewHolder(itemView) {

@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class ListsFragment : Fragment() {
+class ListsFragment : Fragment(), OnAnimeClickListener {
 
     // Vistes i components del layout
     private lateinit var searchEditText: EditText
@@ -57,11 +57,11 @@ class ListsFragment : Fragment() {
 
         // Configurar el RecyclerView amb un adaptador personalitzat
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        favAnimeAdapter = FavAnimeAdapter(mutableListOf()) { anime ->
-
-            // Acció al fer clic en un anime: obrir el detall de l'anime
-            openAnimeDetailFragment(anime)
-        }
+        favAnimeAdapter = FavAnimeAdapter(
+            mutableListOf(), // Llista inicial d'animes (buida)
+            mutableListOf(), // Llista inicial de favorits (buida)
+            this             // Instancia de OnAnimeClickListener
+        )
         recyclerView.adapter = favAnimeAdapter
 
         // Carregar dades inicials
@@ -220,5 +220,9 @@ class ListsFragment : Fragment() {
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onAnimeClick(anime: Anime) {
+        openAnimeDetailFragment(anime)
     }
 }

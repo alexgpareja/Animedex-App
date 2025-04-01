@@ -18,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnAnimeClickListener {
 
     // Vistes i components del layout
     private lateinit var topAiringRecyclerView: RecyclerView
@@ -55,8 +55,8 @@ class HomeFragment : Fragment() {
         }
 
         // Inicialitzar els adapters
-        topAiringAdapter = AnimeAdapter(mutableListOf(), onItemClick)
-        mostPopularAdapter = AnimeAdapter(mutableListOf(), onItemClick)
+        topAiringAdapter = AnimeAdapter(mutableListOf(), this)
+        mostPopularAdapter = AnimeAdapter(mutableListOf(), this)
 
         topAiringRecyclerView.adapter = topAiringAdapter
         mostPopularRecyclerView.adapter = mostPopularAdapter
@@ -160,5 +160,9 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onAnimeClick(anime: Anime) {
+        openAnimeDetailFragment(anime)
     }
 }
