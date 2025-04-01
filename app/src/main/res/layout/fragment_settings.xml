@@ -140,6 +140,30 @@
                     android:textSize="16sp"
                     android:fontFamily="@font/roboto_regular" />
             </LinearLayout>
+
+            <!-- Analytics -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/colorSecondary"
+                android:paddingVertical="12dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_analytics" />
+
+                <TextView
+                    android:id="@+id/analyticsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Analytics"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/roboto_regular" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- Sección de configuraciones adicionales -->

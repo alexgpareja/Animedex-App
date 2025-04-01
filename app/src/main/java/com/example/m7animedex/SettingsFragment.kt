@@ -33,6 +33,16 @@ class SettingsFragment : Fragment() {
                 .commit()
         }
 
+        // Referencia al botón de Analytics
+        val analyticsButton = view.findViewById<View>(R.id.analyticsButton)
+        analyticsButton.setOnClickListener {
+            // Navegar al AnalyticsFragment
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, AnalyticsFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         return view
     }
 }
