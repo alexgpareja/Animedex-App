@@ -84,11 +84,11 @@ class AnimeDetailFragment : Fragment() {
 
         fabAddToFavorites.setOnClickListener {
             anime?.let { selectedAnime ->
-                isFavorite = !isFavorite // Alternar estado de favorito
-                lifecycleScope.launch {
-                    userPreferences.registerFavorite(selectedAnime.id, isFavorite)
+                if (isFavorite) {
+                    removeFromFavorites(selectedAnime.id, fabAddToFavorites)
+                } else {
+                    addToFavorites(selectedAnime.id, fabAddToFavorites)
                 }
-                updateFabIcon(fabAddToFavorites)
             }
         }
 
