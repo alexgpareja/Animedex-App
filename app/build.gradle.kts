@@ -64,10 +64,15 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+
     // Parcelize
     implementation(libs.kotlin.parcelize.runtime)
 
     // Coroutines y MockWebServer
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockwebserver)
+
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.mpandroidchart)
+
 }

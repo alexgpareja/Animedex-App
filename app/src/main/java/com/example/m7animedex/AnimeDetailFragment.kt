@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.m7animedex.R
+import com.example.m7animedex.UserPreferences
 import com.example.m7animedex.data.AnimeAPI
 import com.example.m7animedex.data.api.AnimeService
 import com.example.m7animedex.data.model.Anime
@@ -30,6 +31,7 @@ class AnimeDetailFragment : Fragment() {
     private lateinit var statusSpinner: Spinner
     private lateinit var startDateText: TextView
     private lateinit var completedDateText: TextView
+    private lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +68,12 @@ class AnimeDetailFragment : Fragment() {
         startDateText = view.findViewById(R.id.anime_start_watching_date)
         completedDateText = view.findViewById(R.id.anime_completed_date)
 
+        userPreferences = UserPreferences(requireContext()) // Inicializar DataStore
+
         anime?.let {
+            lifecycleScope.launch {
+                userPreferences.registerAnimeVisit(it.id) // Registrar visita
+            }
             if (it.genres.isNullOrEmpty() || it.media_type.isNullOrEmpty()) {
                 loadFullAnimeDetails(it.id)
             } else {
@@ -77,17 +84,17 @@ class AnimeDetailFragment : Fragment() {
 
         fabAddToFavorites.setOnClickListener {
             anime?.let { selectedAnime ->
-                if (isFavorite) {
-                    removeFromFavorites(selectedAnime.id, fabAddToFavorites)
-                } else {
-                    addToFavorites(selectedAnime.id, fabAddToFavorites)
+                isFavorite = !isFavorite // Alternar estado de favorito
+                lifecycleScope.launch {
+                    userPreferences.registerFavorite(selectedAnime.id, isFavorite)
                 }
+                updateFabIcon(fabAddToFavorites)
             }
         }
 
         var isSpinnerInitialized = false
 
-// Configurar el listener del Spinner
+        // Configurar el listener del Spinner
         statusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (!isSpinnerInitialized) {

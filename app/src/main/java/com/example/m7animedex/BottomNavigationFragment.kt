@@ -12,7 +12,7 @@ class BottomNavigationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflar el layout del fragmento que contiene el BottomNavigationView
         val view = inflater.inflate(R.layout.fragment_bottom_navigation, container, false)
 
@@ -20,7 +20,6 @@ class BottomNavigationFragment : Fragment() {
         val bottomNavigationView: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
 
         bottomNavigationView.menu.setGroupCheckable(0, true, false)
-
 
         // Establecer el ítem seleccionado según el fragmento actual
         when (parentFragmentManager.findFragmentById(R.id.fragment_container)) {
@@ -36,6 +35,7 @@ class BottomNavigationFragment : Fragment() {
                 R.id.nav_search -> SearchFragment()
                 R.id.nav_home -> HomeFragment()
                 R.id.nav_lists -> ListsFragment()
+                // Nuevo fragmento de estadísticas
                 else -> return@setOnItemSelectedListener false
             }
 

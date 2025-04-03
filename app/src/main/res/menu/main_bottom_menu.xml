@@ -15,4 +15,9 @@
         android:enabled="true"
         android:icon="@drawable/lists"
         android:title="Lists" />
+    <item
+        android:id="@+id/nav_stats"
+        android:enabled="true"
+        android:icon="@drawable/outline_bar_chart_24"
+        android:title="Stats" />
 </menu>
