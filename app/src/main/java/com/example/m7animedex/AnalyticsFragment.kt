@@ -11,6 +11,7 @@ import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -43,10 +44,23 @@ class AnalyticsFragment : Fragment() {
     }
 
     private fun setupBarChart(barChart: BarChart, animeVisits: Map<Int, Int>) {
-        val entries = animeVisits.map { BarEntry(it.key.toFloat(), it.value.toFloat()) }
+        if (animeVisits.isEmpty()) {
+            println("No hay datos de visitas para mostrar en el gráfico de barras.")
+            return
+        }
+
+        // Ordenamos por visitas descendente y cogemos los primeros 5 (por ejemplo)
+        val topVisits = animeVisits.entries.sortedByDescending { it.value }.take(5)
+
+        val entries = topVisits.mapIndexed { index, entry ->
+            BarEntry(index.toFloat(), entry.value.toFloat())
+        }
+
+        val labels = topVisits.map { "ID ${it.key}" }
+
         val dataSet = BarDataSet(entries, "Animes más vistos").apply {
-            setColors(Color.BLUE, Color.RED)
-            valueTextSize = 16f
+            color = Color.parseColor("#3F51B5")
+            valueTextSize = 14f
             valueTextColor = Color.BLACK
         }
 
@@ -58,13 +72,30 @@ class AnalyticsFragment : Fragment() {
             data = barData
             description.isEnabled = false
             setFitBars(true)
-            axisLeft.textSize = 16f
-            xAxis.textSize = 16f
-            legend.textSize = 16f
+
+            axisLeft.apply {
+                axisMinimum = 0f
+                textSize = 14f
+            }
+
+            axisRight.isEnabled = false
+
+            xAxis.apply {
+                granularity = 1f
+                setDrawGridLines(false)
+                position = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
+                valueFormatter = IndexAxisValueFormatter(labels)
+                textSize = 14f
+            }
+
+            legend.textSize = 14f
             legend.textColor = Color.BLACK
+
             invalidate()
+            requestLayout()
         }
     }
+
 
     private fun setupPieChart(pieChart: PieChart, stats: Pair<Int, Int>) {
         val (total, favs) = stats
