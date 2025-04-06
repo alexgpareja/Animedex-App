@@ -46,7 +46,7 @@ class AnalyticsFragment : Fragment() {
         val entries = animeVisits.map { BarEntry(it.key.toFloat(), it.value.toFloat()) }
         val dataSet = BarDataSet(entries, "Animes más vistos").apply {
             setColors(Color.BLUE, Color.RED)
-            valueTextSize = 12f // Tamaño del texto en cada barra
+            valueTextSize = 16f
             valueTextColor = Color.BLACK
         }
 
@@ -58,9 +58,9 @@ class AnalyticsFragment : Fragment() {
             data = barData
             description.isEnabled = false
             setFitBars(true)
-            axisLeft.textSize = 12f
-            xAxis.textSize = 12f
-            legend.textSize = 12f
+            axisLeft.textSize = 16f
+            xAxis.textSize = 16f
+            legend.textSize = 16f
             legend.textColor = Color.BLACK
             invalidate()
         }
@@ -71,14 +71,15 @@ class AnalyticsFragment : Fragment() {
         val nonFavs = total - favs
 
         val entries = listOf(
-            PieEntry(favs.toFloat(), "Añadidos a favoritos"),
+            PieEntry(favs.toFloat(), "Favoritos"),
             PieEntry(nonFavs.toFloat(), "No añadidos")
         )
 
-        val dataSet = PieDataSet(entries, "Porcentaje de favoritos").apply {
+        val dataSet = PieDataSet(entries, "").apply {
             setColors(Color.GREEN, Color.GRAY)
-            valueTextSize = 10f // Reducimos el tamaño del número de porcentaje
+            valueTextSize = 16f
             valueTextColor = Color.BLACK
+            sliceSpace = 2f
         }
 
         val pieData = PieData(dataSet)
@@ -86,22 +87,27 @@ class AnalyticsFragment : Fragment() {
         pieChart.apply {
             data = pieData
             setUsePercentValues(true)
-            setEntryLabelTextSize(10f) // Tamaño de las etiquetas dentro del gráfico
-            setEntryLabelColor(Color.BLACK) // Color negro para las etiquetas
-            setCenterTextSize(16f) // Tamaño del texto en el centro del gráfico
+            setEntryLabelTextSize(16f)
+            setEntryLabelColor(Color.BLACK)
             description.isEnabled = false
+            isDrawHoleEnabled = true
+            holeRadius = 50f
+            transparentCircleRadius = 55f
 
-            // Configurar la leyenda más pequeña y sin saltos de línea
+            // Configurar la leyenda correctamente
             legend.apply {
-                textSize = 12f // Reducimos el tamaño del texto
+                textSize = 16f
                 textColor = Color.BLACK
-                formSize = 14f // Tamaño del cuadro de color
-                formToTextSpace = 6f // Espacio entre el cuadro de color y el texto
+                formSize = 16f
+                formToTextSpace = 8f
+                xOffset = 80f // Desplaza la leyenda 20dp hacia la derecha
+                xEntrySpace = 50f // Espacio horizontal entre los ítems de la leyenda
+                yEntrySpace = 15f // Espacio vertical entre los ítems de la leyenda
                 verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-                horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+                horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
                 orientation = Legend.LegendOrientation.HORIZONTAL
                 setDrawInside(false)
-                maxSizePercent = 0.5f // Reduce el espacio ocupado por la leyenda
+                maxSizePercent = 0.9f // Asegura que la leyenda no se corte
             }
 
             invalidate()
