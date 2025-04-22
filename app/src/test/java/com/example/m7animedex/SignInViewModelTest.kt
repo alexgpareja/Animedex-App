@@ -10,34 +10,42 @@ class SignInViewModelTest {
     private lateinit var viewModel: SignInViewModel
 
     @Before
-    fun setUp() {
+    fun setup() {
         viewModel = SignInViewModel()
     }
 
     @Test
-    fun `nom d'usuari buit retorna false`() {
-        viewModel.validateUserName("")
-        assertEquals(false, viewModel.validUserName.value)
+    fun test_1_Nom_dusuari_buit() {
+        viewModel.actualitzaDades("", "prova@gmail.com", "abc123", "abc123")
+        viewModel.validarFormulari()
+        assertEquals(false, viewModel.formulariValid.value)
     }
 
     @Test
-    fun `correu amb format valid retorna true`() {
-        viewModel.validateEmail("usuari@gmail.com")
-        assertEquals(true, viewModel.validEmail.value)
+    fun test_2_Nom_dusuari_amb_espais_en_blanc() {
+        viewModel.actualitzaDades(" a b ", "prova@gmail.com", "abc123", "abc123")
+        viewModel.validarFormulari()
+        assertEquals(false, viewModel.formulariValid.value)
     }
 
     @Test
-    fun `contrasenyes coincideixen retorna true`() {
-        viewModel.checkPasswordsMatch("abc123", "abc123")
-        assertEquals(true, viewModel.passwordsMatch.value)
+    fun test_3_Nom_dusuari_amb_caracters_especials() {
+        viewModel.actualitzaDades("usuari@#!$", "prova@gmail.com", "abc123", "abc123")
+        viewModel.validarFormulari()
+        assertEquals(false, viewModel.formulariValid.value)
     }
 
     @Test
-    fun `contrasenya massa llarga retorna false`() {
-        val longPass = "a".repeat(51)
-        viewModel.validatePassword(longPass)
-        assertEquals(false, viewModel.validPassword.value)
+    fun test_4_Nom_dusuari_massa_curt() {
+        viewModel.actualitzaDades("ab", "prova@gmail.com", "abc123", "abc123")
+        viewModel.validarFormulari()
+        assertEquals(false, viewModel.formulariValid.value)
     }
 
-    // Pots afegir la resta aquí...
+    @Test
+    fun test_5_Nom_dusuari_massa_llarg() {
+        viewModel.actualitzaDades("usuarisuperllargquenocapdeloketoca", "prova@gmail.com", "abc123", "abc123")
+        viewModel.validarFormulari()
+        assertEquals(false, viewModel.formulariValid.value)
+    }
 }

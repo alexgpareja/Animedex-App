@@ -6,38 +6,74 @@ import androidx.lifecycle.ViewModel
 
 class SignInViewModel : ViewModel() {
 
-    private val _validUserName = MutableLiveData<Boolean>()
-    val validUserName: LiveData<Boolean> get() = _validUserName
+    private var _nomUsuari = ""
+    private var _correu = ""
+    private var _contrasenya = ""
+    private var _contrasenya2 = ""
 
-    private val _validEmail = MutableLiveData<Boolean>()
-    val validEmail: LiveData<Boolean> get() = _validEmail
+    private val _errorNomUsuari = MutableLiveData<String>()
+    private val _errorCorreu = MutableLiveData<String>()
+    private val _errorContrasenya = MutableLiveData<String>()
+    private val _errorContrasenya2 = MutableLiveData<String>()
+    private val _formulariValid = MutableLiveData<Boolean>()
 
-    private val _validPassword = MutableLiveData<Boolean>()
-    val validPassword: LiveData<Boolean> get() = _validPassword
+    val errorNomUsuari: LiveData<String> = _errorNomUsuari
+    val errorCorreu: LiveData<String> = _errorCorreu
+    val errorContrasenya: LiveData<String> = _errorContrasenya
+    val errorContrasenya2: LiveData<String> = _errorContrasenya2
+    val formulariValid: LiveData<Boolean> = _formulariValid
 
-    private val _passwordsMatch = MutableLiveData<Boolean>()
-    val passwordsMatch: LiveData<Boolean> get() = _passwordsMatch
-
-    fun validateUserName(name: String) {
-        _validUserName.value = name.length in 3..20 &&
-                name.matches(Regex("^[a-zA-Z0-9_-]+$"))
+    fun actualitzaDades(nom: String, correu: String, contra1: String, contra2: String) {
+        _nomUsuari = nom
+        _correu = correu
+        _contrasenya = contra1
+        _contrasenya2 = contra2
     }
 
-    fun validateEmail(email: String) {
-        _validEmail.value = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-                && !email.contains("!") && !email.contains(" ")
-                && email.contains(".") && email.split(".").last().length > 1
-    }
+    fun validarFormulari() {
+        var valid = true
 
-    fun validatePassword(password: String) {
-        val hasLetter = password.any { it.isLetter() }
-        val hasDigit = password.any { it.isDigit() }
-        _validPassword.value = password.length in 6..50 &&
-                hasLetter && hasDigit &&
-                !password.contains(" ")
-    }
+        // NOM
+        if (_nomUsuari.isBlank()) {
+            _errorNomUsuari.value = "El nom d'usuari és obligatori"
+            valid = false
+        } else if (!Regex("^[a-zA-Z0-9_-]{3,20}$").matches(_nomUsuari)) {
+            _errorNomUsuari.value = "Nom d'usuari no vàlid"
+            valid = false
+        } else {
+            _errorNomUsuari.value = ""
+        }
 
-    fun checkPasswordsMatch(pass1: String, pass2: String) {
-        _passwordsMatch.value = pass1 == pass2
+        // CORREU
+        if (_correu.isBlank()) {
+            _errorCorreu.value = "El correu és obligatori"
+            valid = false
+        } else if (!Regex("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$").matches(_correu)) {
+            _errorCorreu.value = "Format de correu invàlid"
+            valid = false
+        } else {
+            _errorCorreu.value = ""
+        }
+
+        // CONTRASENYA
+        val lletres = _contrasenya.any { it.isLetter() }
+        val numeros = _contrasenya.any { it.isDigit() }
+
+        if (_contrasenya.length < 6 || !lletres || !numeros || _contrasenya.contains(" ")) {
+            _errorContrasenya.value = "Contrasenya massa dèbil"
+            valid = false
+        } else {
+            _errorContrasenya.value = ""
+        }
+
+        // COINCIDÈNCIA
+        if (_contrasenya != _contrasenya2) {
+            _errorContrasenya2.value = "Les contrasenyes no coincideixen"
+            valid = false
+        } else {
+            _errorContrasenya2.value = ""
+        }
+
+        _formulariValid.value = valid
     }
 }
