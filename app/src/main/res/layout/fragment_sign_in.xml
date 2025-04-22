@@ -101,6 +101,33 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"/>
 
+        <!-- RePassword Label -->
+        <TextView
+            android:id="@+id/rePasswordLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Repeat Password"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/password_input"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <!-- RePassword Input -->
+        <EditText
+            android:id="@+id/rePassword_input"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:hint="Repeat Password"
+            android:inputType="textPassword"
+            android:background="@drawable/rounded_section_background_search"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/rePasswordLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
+
         <!-- Botón Sign Up -->
         <Button
             android:id="@+id/sign_in_button"
@@ -108,7 +135,7 @@
             android:layout_height="wrap_content"
             android:text="Sign Up"
             style="@style/ButtonPrimary"
-            app:layout_constraintTop_toBottomOf="@id/password_input"
+            app:layout_constraintTop_toBottomOf="@id/rePassword_input"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"/>
