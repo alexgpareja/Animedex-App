@@ -43,6 +43,8 @@ class SignInViewModel : ViewModel() {
         _contrasenya2 = nou
     }
 
+
+
     // Funcions de validació individuals
     fun validarNomUsuari(nom: String): String {
         return when {
