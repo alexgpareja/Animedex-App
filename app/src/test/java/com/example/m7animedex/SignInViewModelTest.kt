@@ -4,8 +4,14 @@ import com.example.m7animedex.viewmodel.SignInViewModel
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import org.junit.Rule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+
 
 class SignInViewModelTest {
+
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: SignInViewModel
 

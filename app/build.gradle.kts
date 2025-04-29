@@ -75,4 +75,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.mpandroidchart)
 
+    // Per a tests amb LiveData
+    testImplementation(libs.androidx.core.testing)
+
 }

@@ -1,6 +1,7 @@
 [versions]
 agp = "8.6.0"
 coreSplashscreen = "1.0.1"
+coreTesting = "2.2.0"
 glide = "4.16.0"
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
@@ -28,6 +29,7 @@ firebase_auth = "21.1.0"      # Agregado para Firebase Auth
 firebase_analytics = "21.1.0" # Agregado para Firebase Analytics
 
 [libraries]
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
