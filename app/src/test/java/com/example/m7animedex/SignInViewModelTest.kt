@@ -15,37 +15,32 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun test_1_Nom_dusuari_buit() {
-        viewModel.actualitzaDades("", "prova@gmail.com", "abc123", "abc123")
-        viewModel.validarFormulari()
-        assertEquals(false, viewModel.formulariValid.value)
+    fun testNomUsuariBuit() {
+        val result = viewModel.validarNomUsuari("")
+        assertEquals("El nom d'usuari és obligatori", result)
     }
 
     @Test
-    fun test_2_Nom_dusuari_amb_espais_en_blanc() {
-        viewModel.actualitzaDades(" a b ", "prova@gmail.com", "abc123", "abc123")
-        viewModel.validarFormulari()
-        assertEquals(false, viewModel.formulariValid.value)
+    fun testNomUsuariAmbEspais() {
+        val result = viewModel.validarNomUsuari(" a b ")
+        assertEquals("Nom d'usuari amb caràcters no permesos", result)
     }
 
     @Test
-    fun test_3_Nom_dusuari_amb_caracters_especials() {
-        viewModel.actualitzaDades("usuari@#!$", "prova@gmail.com", "abc123", "abc123")
-        viewModel.validarFormulari()
-        assertEquals(false, viewModel.formulariValid.value)
+    fun testNomUsuariAmbCaractersEspecials() {
+        val result = viewModel.validarNomUsuari("usuari@#!$")
+        assertEquals("Nom d'usuari amb caràcters no permesos", result)
     }
 
     @Test
-    fun test_4_Nom_dusuari_massa_curt() {
-        viewModel.actualitzaDades("ab", "prova@gmail.com", "abc123", "abc123")
-        viewModel.validarFormulari()
-        assertEquals(false, viewModel.formulariValid.value)
+    fun testNomUsuariMassaCurt() {
+        val result = viewModel.validarNomUsuari("ab")
+        assertEquals("Ha de tenir almenys 3 caràcters", result)
     }
 
     @Test
-    fun test_5_Nom_dusuari_massa_llarg() {
-        viewModel.actualitzaDades("usuarisuperllargquenocapdeloketoca", "prova@gmail.com", "abc123", "abc123")
-        viewModel.validarFormulari()
-        assertEquals(false, viewModel.formulariValid.value)
+    fun testNomUsuariMassaLlarg() {
+        val result = viewModel.validarNomUsuari("usuarisuperllargquenocapdeloketoca")
+        assertEquals("No pot tenir més de 20 caràcters", result)
     }
 }
