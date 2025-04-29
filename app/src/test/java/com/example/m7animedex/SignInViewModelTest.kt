@@ -131,4 +131,36 @@ class SignInViewModelTest {
         assertEquals("", result)
     }
 
+    /******************** FORMULARI SENCER *****************************/
+
+    @Test
+    fun testFormulariCompletValid() {
+        viewModel.actualitzaNomUsuari("usuari_valid123")
+        viewModel.actualitzaCorreu("usuari@gmail.com")
+        viewModel.actualitzaContrasenya("abc12345")
+        viewModel.actualitzaContrasenya2("abc12345")
+
+        viewModel.comprovaDadesUsuari()
+
+        assertTrue(viewModel.formulariValid.value == true)
+        assertEquals("", viewModel.errorNomUsuari.value)
+        assertEquals("", viewModel.errorCorreu.value)
+        assertEquals("", viewModel.errorContrasenya.value)
+        assertEquals("", viewModel.errorContrasenya2.value)
+    }
+
+    @Test
+    fun testFormulariCompletInvalidPerCorreu() {
+        viewModel.actualitzaNomUsuari("usuari_valid123")
+        viewModel.actualitzaCorreu("usuari.gmail.com") // correu malament
+        viewModel.actualitzaContrasenya("abc12345")
+        viewModel.actualitzaContrasenya2("abc12345")
+
+        viewModel.comprovaDadesUsuari()
+
+        assertFalse(viewModel.formulariValid.value == true)
+        assertEquals("Format de correu invàlid", viewModel.errorCorreu.value)
+    }
+
+
 }
