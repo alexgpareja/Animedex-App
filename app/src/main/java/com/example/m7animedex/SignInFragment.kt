@@ -13,6 +13,8 @@ import com.example.m7animedex.viewmodel.SignInViewModel
 
 class SignInFragment : Fragment() {
 
+    private lateinit var viewModel: SignInViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,57 +23,42 @@ class SignInFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
     }
 
-    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // Referencias a los botones
-        val signInButton = view.findViewById<Button>(R.id.sign_in_button)
-        val logInButton = view.findViewById<Button>(R.id.log_in_button)
-
-        // Botón Sign In -> Navega al Home (MainActivity con Fragment Home)
-        signInButton.setOnClickListener {
-            val intent = Intent(requireActivity(), MainActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
-        }
-
-        // Botón Log In -> Navega al LogInFragment dentro de la misma actividad
-        logInButton.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, LogInFragment())
-                .addToBackStack(null) // Permite volver atrás con el botón de retroceso
-                .commit()
-        }
-    }*/
-
-    private lateinit var viewModel: SignInViewModel
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[SignInViewModel::class.java]
 
+        // Referencias a los campos de entrada
         val usernameInput = view.findViewById<EditText>(R.id.username_input)
         val emailInput = view.findViewById<EditText>(R.id.email_input)
         val passwordInput = view.findViewById<EditText>(R.id.password_input)
         val rePasswordInput = view.findViewById<EditText>(R.id.rePassword_input)
 
+        // Referencia al botón de Sign In
         val signInButton = view.findViewById<Button>(R.id.sign_in_button)
-        /*signInButton.setOnClickListener {
-            viewModel.validateUserName(usernameInput.text.toString())
-            viewModel.validateEmail(emailInput.text.toString())
-            viewModel.validatePassword(passwordInput.text.toString())
-            viewModel.checkPasswordsMatch(passwordInput.text.toString(), rePasswordInput.text.toString())
 
-            if (viewModel.validUserName.value == true &&
-                viewModel.validEmail.value == true &&
-                viewModel.validPassword.value == true &&
-                viewModel.passwordsMatch.value == true) {
+        signInButton.setOnClickListener {
+            // Actualizar datos en el ViewModel
+            viewModel.actualitzaNomUsuari(usernameInput.text.toString())
+            viewModel.actualitzaCorreu(emailInput.text.toString())
+            viewModel.actualitzaContrasenya(passwordInput.text.toString())
+            viewModel.actualitzaContrasenya2(rePasswordInput.text.toString())
+
+            // Realizar la validación en el ViewModel
+            viewModel.comprovaDadesUsuari()
+
+            // Establecer los errores en los campos de texto
+            usernameInput.error = viewModel.errorNomUsuari.value.takeIf { it?.isNotEmpty() == true }
+            emailInput.error = viewModel.errorCorreu.value.takeIf { it?.isNotEmpty() == true }
+            passwordInput.error = viewModel.errorContrasenya.value.takeIf { it?.isNotEmpty() == true }
+            rePasswordInput.error = viewModel.errorContrasenya2.value.takeIf { it?.isNotEmpty() == true }
+
+            // Si el formulario es válido, navegar al siguiente fragmento o actividad
+            if (viewModel.formulariValid.value == true) {
                 val intent = Intent(requireActivity(), MainActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
             }
-        }*/
+        }
     }
-
 }
