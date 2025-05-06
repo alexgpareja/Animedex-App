@@ -15,9 +15,9 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.header, FragmentHeader())
             .commit()
 
-        // Cargar LogInFragment por defecto si es la primera vez que se abre la app
+        // Cargar SignInFragment por defecto si es la primera vez que se abre la app
         if (savedInstanceState == null) {
-            loadFragment(LogInFragment())
+            loadFragment(SignInFragment()) // Càrrega el SignInFragment en lloc de LogInFragment
         }
 
         // Configuración del BottomNavigationView
