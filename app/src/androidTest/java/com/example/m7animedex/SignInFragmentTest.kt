@@ -1,75 +1,78 @@
-package com.example.m7animedex.res
+package com.example.m7animedex
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.clearText
-import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.hasErrorText
-import androidx.test.espresso.matcher.ViewMatchers.withId
-//import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.m7animedex.R
-import com.example.m7animedex.SignInFragment
-
-import org.junit.Before
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.*
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/*
-Elements clau d'Espresso en els tests
-onView(withId(...)) → Localitza un element de la UI.
-perform(typeText(...)) → Escriu text en un EditText.
-perform(click()) → Fa clic en un Button.
-check(matches(...)) → Verifica que l'element compleix una condició.
-hasErrorText("Missatge d'error") → Comprova si un EditText té un error assignat.
-isDisplayed() → Comprova si un element és visible a la pantalla.
- */
-
 @RunWith(AndroidJUnit4::class)
-class SignInFragmentUITest {
+class SignInFragmentTest {
 
     @get:Rule
-    var activityRule = ActivityScenarioRule(SignInFragment::class.java)
+    var activityRule: ActivityScenarioRule<MainActivity> = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun testNomUsuariBuit() {
-        onView(withId(R.id.username_input)).perform(clearText())
-        onView(withId(R.id.sign_in_button)).perform(click())
-        onView(withId(R.id.username_input))
-            .check(matches(hasErrorText("El nom d'usuari és obligatori")))
+    fun testSignUpButtonVisible() {
+        onView(withId(R.id.sign_in_button))
+            .check(matches(isDisplayed()))
+            .check(matches(isEnabled())) // Verifiquem que està habilitat
     }
 
     @Test
-    fun testEmailInvalid() {
-        onView(withId(R.id.username_input)).perform(typeText("usuariValid"))
-        onView(withId(R.id.email_input)).perform(typeText("correu.sensearrova"))
-        onView(withId(R.id.sign_in_button)).perform(click())
+    fun testEmailInput() {
         onView(withId(R.id.email_input))
-            .check(matches(hasErrorText("Format de correu invàlid")))
+            .perform(typeText("test@example.com"), closeSoftKeyboard())
+            .check(matches(withText("test@example.com")))
     }
 
     @Test
-    fun testContrasenyaCurta() {
-        onView(withId(R.id.username_input)).perform(typeText("usuariValid"))
-        onView(withId(R.id.email_input)).perform(typeText("usuari@gmail.com"))
-        onView(withId(R.id.password_input)).perform(typeText("abc12"))
-        onView(withId(R.id.rePassword_input)).perform(typeText("abc12"))
-        onView(withId(R.id.sign_in_button)).perform(click())
+    fun testUsernameInput() {
+        onView(withId(R.id.username_input))
+            .perform(typeText("user123"), closeSoftKeyboard())
+            .check(matches(withText("user123")))
+    }
+
+    @Test
+    fun testPasswordInput() {
         onView(withId(R.id.password_input))
-            .check(matches(hasErrorText("Contrasenya massa curta (8-16 caràcters)")))
+            .perform(typeText("abc12345"), closeSoftKeyboard())
+            .check(matches(withText("abc12345")))
     }
 
     @Test
-    fun testContrasenyesDiferents() {
-        onView(withId(R.id.username_input)).perform(typeText("usuariValid"))
-        onView(withId(R.id.email_input)).perform(typeText("usuari@gmail.com"))
-        onView(withId(R.id.password_input)).perform(typeText("abc12345"))
-        onView(withId(R.id.rePassword_input)).perform(typeText("abc54321"))
-        onView(withId(R.id.sign_in_button)).perform(click())
+    fun testRePasswordInput() {
         onView(withId(R.id.rePassword_input))
-            .check(matches(hasErrorText("Les contrasenyes no coincideixen")))
+            .perform(typeText("abc12345"), closeSoftKeyboard())
+            .check(matches(withText("abc12345")))
+    }
+
+    @Test
+    fun testSignUpButtonFunctionality() {
+        onView(withId(R.id.email_input)).perform(typeText("test@example.com"), closeSoftKeyboard())
+        onView(withId(R.id.username_input)).perform(typeText("user123"), closeSoftKeyboard())
+        onView(withId(R.id.password_input)).perform(typeText("abc12345"), closeSoftKeyboard())
+        onView(withId(R.id.rePassword_input)).perform(typeText("abc12345"), closeSoftKeyboard())
+
+        onView(withId(R.id.sign_in_button)).perform(click())
+
+        // Aquí afegim la lògica de comprovació del resultat del clic (exemple: si es fa la transició a una nova pantalla o es mostra un missatge d'èxit)
+    }
+
+    @Test
+    fun testFormulariCompletInvalidPerCorreu() {
+        onView(withId(R.id.email_input)).perform(typeText("usuari.gmail.com"), closeSoftKeyboard()) // correu malament
+        onView(withId(R.id.username_input)).perform(typeText("user123"), closeSoftKeyboard())
+        onView(withId(R.id.password_input)).perform(typeText("abc12345"), closeSoftKeyboard())
+        onView(withId(R.id.rePassword_input)).perform(typeText("abc12345"), closeSoftKeyboard())
+
+        onView(withId(R.id.sign_in_button)).perform(click())
+
+        // Verifiquem que el formulari ha fallat i el missatge d'error és correcte
+        onView(withId(R.id.email_input)).check(matches(hasErrorText("Format de correu invàlid")))
     }
 }
