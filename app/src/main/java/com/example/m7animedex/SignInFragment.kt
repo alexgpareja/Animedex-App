@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.m7animedex.viewmodel.SignInViewModel
 
@@ -19,7 +21,6 @@ class SignInFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflar el layout del fragment
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
     }
 
@@ -28,36 +29,46 @@ class SignInFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[SignInViewModel::class.java]
 
-        // Referencias a los campos de entrada
         val usernameInput = view.findViewById<EditText>(R.id.username_input)
         val emailInput = view.findViewById<EditText>(R.id.email_input)
         val passwordInput = view.findViewById<EditText>(R.id.password_input)
         val rePasswordInput = view.findViewById<EditText>(R.id.rePassword_input)
-
-        // Referencia al botón de Sign In
         val signInButton = view.findViewById<Button>(R.id.sign_in_button)
 
+        // Observar els errors en temps real
+        viewModel.errorNomUsuari.observe(viewLifecycleOwner, Observer { error ->
+            usernameInput.error = error.takeIf { it.isNotEmpty() }
+        })
+        viewModel.errorCorreu.observe(viewLifecycleOwner, Observer { error ->
+            emailInput.error = error.takeIf { it.isNotEmpty() }
+        })
+        viewModel.errorContrasenya.observe(viewLifecycleOwner, Observer { error ->
+            passwordInput.error = error.takeIf { it.isNotEmpty() }
+        })
+        viewModel.errorContrasenya2.observe(viewLifecycleOwner, Observer { error ->
+            rePasswordInput.error = error.takeIf { it.isNotEmpty() }
+        })
+
         signInButton.setOnClickListener {
-            // Actualizar datos en el ViewModel
+            // Actualitzar dades al ViewModel
             viewModel.actualitzaNomUsuari(usernameInput.text.toString())
             viewModel.actualitzaCorreu(emailInput.text.toString())
             viewModel.actualitzaContrasenya(passwordInput.text.toString())
             viewModel.actualitzaContrasenya2(rePasswordInput.text.toString())
 
-            // Realizar la validación en el ViewModel
+            // Validar dades
             viewModel.comprovaDadesUsuari()
 
-            // Establecer los errores en los campos de texto
-            usernameInput.error = viewModel.errorNomUsuari.value.takeIf { it?.isNotEmpty() == true }
-            emailInput.error = viewModel.errorCorreu.value.takeIf { it?.isNotEmpty() == true }
-            passwordInput.error = viewModel.errorContrasenya.value.takeIf { it?.isNotEmpty() == true }
-            rePasswordInput.error = viewModel.errorContrasenya2.value.takeIf { it?.isNotEmpty() == true }
-
-            // Si el formulario es válido, navegar al siguiente fragmento o actividad
+            // Si el formulari és vàlid, navegar a HomeFragment
             if (viewModel.formulariValid.value == true) {
-                val intent = Intent(requireActivity(), MainActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish()
+                // Substituir el fragment actual amb HomeFragment
+                val homeFragment = HomeFragment()
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, homeFragment) // Assegurem que es substitueixi el fragment actual
+                    .commit()
+            } else {
+                // Mostrar Toast si el formulari no és vàlid
+                Toast.makeText(requireContext(), "Si us plau, corregeix els errors", Toast.LENGTH_SHORT).show()
             }
         }
     }

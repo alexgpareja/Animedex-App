@@ -59,8 +59,6 @@ class SignInFragmentTest {
         onView(withId(R.id.rePassword_input)).perform(typeText("abc12345"), closeSoftKeyboard())
 
         onView(withId(R.id.sign_in_button)).perform(click())
-
-        // Aquí afegim la lògica de comprovació del resultat del clic (exemple: si es fa la transició a una nova pantalla o es mostra un missatge d'èxit)
     }
 
     @Test
@@ -102,5 +100,22 @@ class SignInFragmentTest {
         // Verificamos que el mensaje de error es el correcto
         onView(withId(R.id.username_input)).check(matches(hasErrorText("No pot tenir més de 20 caràcters")))
     }
+
+    @Test
+    fun testSignInFormulariCompletValid() {
+        // Omple tots els camps amb dades vàlides
+        onView(withId(R.id.username_input)).perform(typeText("usuariValid"), closeSoftKeyboard())
+        onView(withId(R.id.email_input)).perform(typeText("valid@example.com"), closeSoftKeyboard())
+        onView(withId(R.id.password_input)).perform(typeText("abc12345"), closeSoftKeyboard())
+        onView(withId(R.id.rePassword_input)).perform(typeText("abc12345"), closeSoftKeyboard())
+
+        // Prem el botó de sign in
+        onView(withId(R.id.sign_in_button)).perform(click())
+
+        // Comprova que el fragment Home s'ha carregat verificant la presència del títol "TOP AIRING"
+        onView(withId(R.id.topAiringTitle)).check(matches(isDisplayed()))
+
+    }
+
 
 }
